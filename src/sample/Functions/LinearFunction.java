@@ -91,9 +91,10 @@ public class LinearFunction extends Function{
             b = new BigDecimal(b).setScale(3,RoundingMode.UP).doubleValue();
             String function = "y = "+String.valueOf(a)+"*x "+(b>0?"+ ":"- ")+String.valueOf(Math.abs(b));
             answer = new Answer(function,a,b);
-        }catch (ArithmeticException e){
+        }catch (Exception e){
             System.out.println("Main determinate is 0");
-        }catch (Exception e){e.printStackTrace();}
+            //e.printStackTrace();
+            }
         return answer;
     }
 
@@ -105,7 +106,11 @@ public class LinearFunction extends Function{
 
     @Override
     public double getResult(double x) {
-        result = answer.getA()*x+answer.getB();
+        try {
+            result = answer.getA()*x+answer.getB();
+        }catch (NullPointerException e){
+            result = 0.0;
+        }
         return result;
     }
 }

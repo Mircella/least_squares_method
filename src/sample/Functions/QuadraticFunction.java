@@ -151,7 +151,7 @@ public class QuadraticFunction extends Function {
             String function = "y = "+String.valueOf(a)+"*x^2"+
                     ((b>0)?(" + "+String.valueOf(b)):(" - "+moduleB)+"*x"+
                             ((c>0)?(" + "+String.valueOf(c)):(" - "+moduleC)));
-            answer = new Answer(function,a,b);
+            answer = new Answer(function,a,b,c);
         }catch (ArithmeticException e){
             System.out.println("Main determinate is 0");
         }catch (Exception e){e.printStackTrace();}

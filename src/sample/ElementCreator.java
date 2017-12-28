@@ -5,20 +5,19 @@ import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 
+import javafx.util.converter.DoubleStringConverter;
 import sample.Calculator.Data;
 import sample.Functions.*;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 
 public class ElementCreator {
     private XYChart.Series series,graph;
@@ -45,9 +44,7 @@ public class ElementCreator {
         this.function = function;
         ObservableList<Data> dataList = function.getDataList();
         ArrayList<Data> dataListCopy = new ArrayList<>();
-        for(int i=0;i<dataList.size();i++){
-            dataListCopy.add(dataList.get(i));
-        }
+        dataListCopy.addAll(dataList);
         series = addSeries(dataListCopy);
         series.setName(functionName);
         graph = addGraph(function,dataListCopy);
@@ -139,6 +136,15 @@ public class ElementCreator {
         dataTableView.setMaxSize(260,250);
         createColumns(dataTableView);
         dataTableView.setItems(list);
+        /*dataTableView.getSelectionModel().selectedItemProperty().addListener((obs,oldSelection,newSelection)->{
+            if(oldSelection!=null){
+                Data d = oldSelection;
+                //Data d2 = newSelection;
+                System.out.println("Old: "+String.valueOf(d.getX()));
+            }
+
+        });*/
+
         box.getChildren().add(dataTableView);
         box.setAlignment(Pos.CENTER);
         return dataTableView;
@@ -151,10 +157,25 @@ public class ElementCreator {
         xColumn.setPrefWidth(130);
         xColumn.setSortable(false);
         xColumn.setCellValueFactory(cellData->cellData.getValue().xPropertyProperty().asObject());
-        xColumn.setCellFactory(new DecimalColumFactory<>(new DecimalFormat("0.00")));
+        xColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter(){
+            @Override
+            public Double fromString(String value) {
+                double result=0;
+                try {
+                    result = Double.parseDouble(value);
+                }catch (Exception e){
+                    System.out.println("Error input");
+                }
+                return result;
+            }
+        }));
         xColumn.setOnEditCommit((TableColumn.CellEditEvent<Data,Double>event)->{
             int selectedPos = event.getTablePosition().getRow();
-            double newValue = event.getNewValue();
+            double newValue=0;
+            try{
+            newValue = event.getNewValue();
+            }catch (Exception e){
+            }
             Data data = event.getTableView().getItems().get(selectedPos);
             data.setX(newValue);
         });
@@ -164,11 +185,28 @@ public class ElementCreator {
         yColumn.setEditable(true);
         yColumn.setPrefWidth(130);
         yColumn.setSortable(false);
+        yColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter(){
+            @Override
+            public Double fromString(String value) {
+                double result=0;
+                try {
+                    result = Double.parseDouble(value);
+                }catch (Exception e){
+                    System.out.println("Error input");
+                }
+                return result;
+            }
+
+        }));
+
         yColumn.setCellValueFactory(cellData->cellData.getValue().yPropertyProperty().asObject());
-        yColumn.setCellFactory(new DecimalColumFactory<>(new DecimalFormat("0.00")));
         yColumn.setOnEditCommit((TableColumn.CellEditEvent<Data,Double>event)->{
             int selectedPos = event.getTablePosition().getRow();
-            double newValue = event.getNewValue();
+            double newValue=0;
+            try{
+                newValue = event.getNewValue();
+            }catch (Exception e){
+            }
             Data data = event.getTableView().getItems().get(selectedPos);
             data.setY(newValue);
         });

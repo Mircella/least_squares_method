@@ -53,11 +53,16 @@ public abstract class Function {
     }
 
     public Function(ObservableList<Data> dataList) {
-        this.dataList = dataList;
-        matrix();
-        additionalMatrix();
-        calcDet();
-        answer = calculate();
+        try {
+            this.dataList = dataList;
+            matrix();
+            additionalMatrix();
+            calcDet();
+            answer = calculate();
+        }catch (Exception e){
+            System.out.println("Error: "+e.getClass().getSimpleName());
+        }
+
     }
 
     public Answer getAnswer() {

@@ -3,12 +3,15 @@ package sample;
 import javafx.application.Application;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ComboBox;
+
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -43,39 +46,53 @@ public class Main extends Application {
         findElements(scene);
         creator = ElementCreator.getInstance();
         creator.createComboBox(graphComboBox);
-        function = new LinearFunction();
+        ObservableList<Data>list = FXCollections.observableArrayList();
+        for(int i=0;i<10;i++){
+            Data data = new Data(0,0);
+            list.add(data);
+        }
+        function = new LinearFunction(list);
         lineChart = creator.createLineChart("Default",function);
         chartPane.getChildren().add(lineChart);
         dataTableView = creator.createTable(dataTableView,tableBox,function);
         dataTableView.setEditable(true);
-
-
         graphComboBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                ObservableList<Data> list = dataTableView.getItems();
                 String functionName = (String)graphComboBox.getValue();
                 switch (functionName){
                     case "Linear function":{
-                        function = new LinearFunction();
+                        if(list!=null){
+                        function = new LinearFunction(list);
+                        }else {
+                            function = new LinearFunction();
+                        }
                     }break;
                     case "Inverse ratio function":{
-                        function = new InverseRatioFunction();
+                        if(list!=null)function = new InverseRatioFunction(list);
+                        else function = new InverseRatioFunction();
                     }break;
                     case "Quadratic function":{
-                        function = new QuadraticFunction();
+                        if(list!=null)function = new QuadraticFunction(list);
+                        else function = new QuadraticFunction();
                     }break;
                     case "Logarithmic function":{
-                        function = new LogarithmicFunction();
+                        if(list!=null)function = new LogarithmicFunction(list);
+                        else function = new LogarithmicFunction();
                     }break;
                     case "Exponential function":{
-                        function = new ExponentialFunction();
+                        if(list!=null)function = new ExponentialFunction(list);
+                        else function = new ExponentialFunction();
                     }break;
                     default:{
-                        function=new LinearFunction();
+                        function=new LinearFunction(list);
                     }
                 }
+
                 chartPane.getChildren().remove(lineChart);
                 lineChart = creator.createLineChart(functionName,function);
+                dataTableView.setItems(function.getDataList());
                 chartPane.getChildren().add(lineChart);
                 prepareStage(primaryStage,scene);
                 primaryStage.show();
@@ -93,7 +110,6 @@ public class Main extends Application {
     }
 
     private void findElements(Scene scene){
-
         chartPane = (StackPane)scene.lookup("#chartPane");
         graphComboBox = (ComboBox)scene.lookup("#graphCB");
         tableBox = (VBox)scene.lookup("#tableVB");
