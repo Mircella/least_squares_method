@@ -86,7 +86,7 @@ public class ExponentialFunction extends Function {
     protected Answer calculate() {
         try {
             double a = det1/mainDet;
-            a = (Math.rint(a*10000))/10000;
+            a = new BigDecimal(a).setScale(3,RoundingMode.UP).doubleValue();
             double B = det2/mainDet;
             B = new BigDecimal(B).setScale(3,RoundingMode.UP).doubleValue();
             String function = "y = exp("+String.valueOf(a)+"*x"+((B>0)?("+"+B):("-"+Math.abs(B)))+")";

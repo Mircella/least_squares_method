@@ -141,9 +141,9 @@ public class QuadraticFunction extends Function {
     Answer calculate() {
         try {
             double a = det1/mainDet;
-            a = (Math.rint(a*10000))/100;
+            a = new BigDecimal(a).setScale(3,RoundingMode.UP).doubleValue();
             double b = det2/mainDet;
-            b = (Math.rint(b*10000))/10000;
+            b = new BigDecimal(b).setScale(3,RoundingMode.UP).doubleValue();
             double c = det3/mainDet;
             c = new BigDecimal(c).setScale(3,RoundingMode.UP).doubleValue();
             double moduleB = Math.abs(b);

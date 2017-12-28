@@ -86,9 +86,9 @@ public class LinearFunction extends Function{
     protected Answer calculate() {
         try {
             double a = det1/mainDet;
-            a = (Math.rint(a*10000))/10000;
+            a = new BigDecimal(a).setScale(3,RoundingMode.UP).doubleValue();
             double b = det2/mainDet;
-            b = (Math.rint(b*10000))/10000;
+            b = new BigDecimal(b).setScale(3,RoundingMode.UP).doubleValue();
             String function = "y = "+String.valueOf(a)+"*x "+(b>0?"+ ":"- ")+String.valueOf(Math.abs(b));
             answer = new Answer(function,a,b);
         }catch (ArithmeticException e){

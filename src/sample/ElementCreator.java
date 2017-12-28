@@ -9,12 +9,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 
 import sample.Calculator.Data;
 import sample.Functions.*;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ElementCreator {
@@ -144,9 +147,11 @@ public class ElementCreator {
     private void createColumns(TableView<Data>dataTableView){
         TableColumn<Data,Double> xColumn = new TableColumn<Data,Double>("x");
         xColumn.setMaxWidth(130);
+        xColumn.setEditable(true);
         xColumn.setPrefWidth(130);
         xColumn.setSortable(false);
-        xColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
+        xColumn.setCellValueFactory(cellData->cellData.getValue().xPropertyProperty().asObject());
+        xColumn.setCellFactory(new DecimalColumFactory<>(new DecimalFormat("0.00")));
         xColumn.setOnEditCommit((TableColumn.CellEditEvent<Data,Double>event)->{
             int selectedPos = event.getTablePosition().getRow();
             double newValue = event.getNewValue();
@@ -156,9 +161,11 @@ public class ElementCreator {
 
         TableColumn<Data,Double> yColumn = new TableColumn<Data,Double>("y");
         yColumn.setMaxWidth(130);
+        yColumn.setEditable(true);
         yColumn.setPrefWidth(130);
         yColumn.setSortable(false);
-        yColumn.setCellValueFactory(new PropertyValueFactory<>("y"));
+        yColumn.setCellValueFactory(cellData->cellData.getValue().yPropertyProperty().asObject());
+        yColumn.setCellFactory(new DecimalColumFactory<>(new DecimalFormat("0.00")));
         yColumn.setOnEditCommit((TableColumn.CellEditEvent<Data,Double>event)->{
             int selectedPos = event.getTablePosition().getRow();
             double newValue = event.getNewValue();
