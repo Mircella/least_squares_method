@@ -13,6 +13,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,10 +30,12 @@ public class Main extends Application {
     private Function function;
     private static ComboBox graphComboBox;
     private StackPane chartPane;
+    private TextField numbersTF;
 
     private VBox tableBox;
     private TableView<Data> dataTableView;
 
+    private int pointNumber;
 
     public static ComboBox getGraphComboBox() {
         return graphComboBox;
@@ -44,6 +48,7 @@ public class Main extends Application {
         Pane root = loader.load();
         Scene scene = new Scene(root,880,500);
         findElements(scene);
+
         creator = ElementCreator.getInstance();
         creator.createComboBox(graphComboBox);
         ObservableList<Data>list = FXCollections.observableArrayList();
@@ -56,6 +61,27 @@ public class Main extends Application {
         chartPane.getChildren().add(lineChart);
         dataTableView = creator.createTable(dataTableView,tableBox,function);
         dataTableView.setEditable(true);
+        if(numbersTF!=null){
+            numbersTF.setOnKeyPressed(t->{
+                if(t.getCode()== KeyCode.ENTER){
+                    tableBox.getChildren().remove(dataTableView);
+                    dataTableView = null;
+                    list.clear();
+                    try {
+                        pointNumber = Integer.parseInt(numbersTF.getText());
+                    }catch (Exception e){
+                        System.out.println("Smth wrong");
+                    }
+                    for(int i=0;i<pointNumber;i++){
+                        Data data = new Data(0,0);
+                        list.add(data);
+                    }
+                    function = new LinearFunction(list);
+                    dataTableView = creator.createTable(dataTableView,tableBox,function);
+                    dataTableView.refresh();
+                }
+            });
+        }
         graphComboBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -113,6 +139,7 @@ public class Main extends Application {
         chartPane = (StackPane)scene.lookup("#chartPane");
         graphComboBox = (ComboBox)scene.lookup("#graphCB");
         tableBox = (VBox)scene.lookup("#tableVB");
+        numbersTF = (TextField)scene.lookup("#numbersTF");
 
     }
 

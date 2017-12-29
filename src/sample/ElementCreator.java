@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
@@ -9,6 +10,7 @@ import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 import javafx.util.converter.DoubleStringConverter;
@@ -122,7 +124,6 @@ public class ElementCreator {
         }
         xAxis = new NumberAxis(minX,maxX,(maxX-minX)/n);
         yAxis = new NumberAxis(minY,maxY,(maxY-minY)/n);
-        //System.out.println(""+maxX+" "+minX+" "+maxY+" "+minY);
     }
 
     public TableView<Data> createTable(TableView<Data> dataTableView, VBox box, Function function){
@@ -136,15 +137,6 @@ public class ElementCreator {
         dataTableView.setMaxSize(260,250);
         createColumns(dataTableView);
         dataTableView.setItems(list);
-        /*dataTableView.getSelectionModel().selectedItemProperty().addListener((obs,oldSelection,newSelection)->{
-            if(oldSelection!=null){
-                Data d = oldSelection;
-                //Data d2 = newSelection;
-                System.out.println("Old: "+String.valueOf(d.getX()));
-            }
-
-        });*/
-
         box.getChildren().add(dataTableView);
         box.setAlignment(Pos.CENTER);
         return dataTableView;
@@ -157,7 +149,73 @@ public class ElementCreator {
         xColumn.setPrefWidth(130);
         xColumn.setSortable(false);
         xColumn.setCellValueFactory(cellData->cellData.getValue().xPropertyProperty().asObject());
-        xColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter(){
+        xColumn.setCellFactory(e->new TableCell<Data,Double>(){
+            private TextField xTF;
+
+            @Override
+            public void startEdit() {
+                super.startEdit();
+                if(this.xTF==null){
+                    createTextField();
+                }
+                this.xTF.setText(String.valueOf(getValue()));
+                super.setGraphic(this.xTF);
+                super.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                Platform.runLater(this.xTF::requestFocus);
+            }
+
+            @Override
+            public void cancelEdit() {
+                super.cancelEdit();
+                super.setText(String.valueOf(getValue()));
+                super.setContentDisplay(ContentDisplay.TEXT_ONLY);
+            }
+
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty||item==null){
+                    super.setText(null);
+                    super.setGraphic(null);
+                }else {
+                    super.setText(String.valueOf(this.getValue()));
+                    super.setContentDisplay(ContentDisplay.TEXT_ONLY);
+                }
+            }
+
+            private Double getValue(){
+                return Double.valueOf(super.getItem());
+            }
+            private void createTextField(){
+                this.xTF = new TextField(String.valueOf(getValue()));
+                this.xTF.setMinWidth(super.getMinWidth()-super.getGraphicTextGap()*2);
+                this.xTF.setOnKeyPressed(t->{
+                    if(t.getCode()== KeyCode.ENTER||t.getCode()==KeyCode.TAB){
+                        Double d=0.0;
+                        try {
+                           d = Double.parseDouble(xTF.getText());
+                        }catch (NumberFormatException e){
+                            System.out.println("Exception");
+                        }
+                        super.commitEdit(d);
+                    }else if(t.getCode()==KeyCode.ESCAPE){
+                        super.cancelEdit();
+                    }
+                });
+                this.xTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                    if(!newValue&&xTF!=null){
+                        Double d=0.0;
+                        try {
+                            d = Double.parseDouble(xTF.getText());
+                        }catch (NumberFormatException e){
+                            System.out.println("Exception");
+                        }
+                        super.commitEdit(d);
+                    }
+                });
+            }
+        });
+        /*xColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter(){
             @Override
             public Double fromString(String value) {
                 double result=0;
@@ -168,7 +226,7 @@ public class ElementCreator {
                 }
                 return result;
             }
-        }));
+        }));*/
         xColumn.setOnEditCommit((TableColumn.CellEditEvent<Data,Double>event)->{
             int selectedPos = event.getTablePosition().getRow();
             double newValue=0;
@@ -185,7 +243,7 @@ public class ElementCreator {
         yColumn.setEditable(true);
         yColumn.setPrefWidth(130);
         yColumn.setSortable(false);
-        yColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter(){
+        /*yColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter(){
             @Override
             public Double fromString(String value) {
                 double result=0;
@@ -197,7 +255,74 @@ public class ElementCreator {
                 return result;
             }
 
-        }));
+        }));*/
+        yColumn.setCellFactory(e->new TableCell<Data,Double>(){
+            private TextField xTF;
+
+            @Override
+            public void startEdit() {
+                super.startEdit();
+                if(this.xTF==null){
+                    createTextField();
+                }
+                this.xTF.setText(String.valueOf(getValue()));
+                super.setGraphic(this.xTF);
+                super.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                Platform.runLater(this.xTF::requestFocus);
+            }
+
+            @Override
+            public void cancelEdit() {
+                super.cancelEdit();
+                super.setText(String.valueOf(getValue()));
+                super.setContentDisplay(ContentDisplay.TEXT_ONLY);
+            }
+
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty||item==null){
+                    super.setText(null);
+                    super.setGraphic(null);
+                }else {
+                    super.setText(String.valueOf(this.getValue()));
+                    super.setContentDisplay(ContentDisplay.TEXT_ONLY);
+                }
+            }
+
+            private Double getValue(){
+                return Double.valueOf(super.getItem());
+            }
+            private void createTextField(){
+                this.xTF = new TextField(String.valueOf(getValue()));
+                this.xTF.setMinWidth(super.getMinWidth()-super.getGraphicTextGap()*2);
+                this.xTF.setOnKeyPressed(t->{
+                    if(t.getCode()== KeyCode.ENTER||t.getCode()==KeyCode.TAB){
+                        Double d=0.0;
+                        try {
+                            d = Double.parseDouble(xTF.getText());
+                        }catch (NumberFormatException e){
+                            System.out.println("Exception");
+                        }
+                        super.commitEdit(d);
+                    }else if(t.getCode()==KeyCode.ESCAPE){
+                        super.cancelEdit();
+                    }
+                });
+                this.xTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                    if(!newValue&&xTF!=null){
+                        Double d=0.0;
+                        try {
+                            d = Double.parseDouble(xTF.getText());
+                        }catch (NumberFormatException e){
+                            System.out.println("Exception");
+                        }
+                        super.commitEdit(d);
+                    }
+                });
+
+            }
+        });
 
         yColumn.setCellValueFactory(cellData->cellData.getValue().yPropertyProperty().asObject());
         yColumn.setOnEditCommit((TableColumn.CellEditEvent<Data,Double>event)->{
