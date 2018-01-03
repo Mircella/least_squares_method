@@ -17,13 +17,13 @@
    <children>
       <TilePane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <TabPane prefHeight="500.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" prefHeight="500.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Company 1">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <HBox maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="470.0" prefWidth="900.0">
+                              <HBox fx:id="tabBox" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="470.0" prefWidth="900.0">
                                  <children>
                                     <VBox maxHeight="1.7976931348623157E308" prefHeight="470.0" prefWidth="270.0">
                                        <children>
@@ -78,7 +78,7 @@
                                           </Pane>
                                           <Pane prefHeight="40.0" prefWidth="270.0">
                                              <children>
-                                                <Button layoutX="165.0" layoutY="5.0" mnemonicParsing="false" onAction="#examplesAction" prefHeight="30.0" prefWidth="100.0" text="Examples" />
+                                                <Button fx:id="exampleBTN" layoutX="165.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Examples" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="40.0" prefWidth="270.0">

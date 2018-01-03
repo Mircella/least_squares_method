@@ -2,6 +2,9 @@ package sample;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -11,20 +14,25 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import javafx.util.converter.DoubleStringConverter;
 import sample.Calculator.Data;
 import sample.Functions.*;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.IllegalFormatException;
 
 public class ElementCreator {
     private XYChart.Series series,graph;
-    private LineChart lineChart;
-    private Function function;
+    private LineChart lineChart,lineChartAstana;
+    private Function function,astanaFunction;
+    private ObservableList<Data>astanaData;
+    private TableView<Data>astanaTableView;
 
     private NumberAxis xAxis;
     private NumberAxis yAxis;
@@ -40,6 +48,74 @@ public class ElementCreator {
             creator = new ElementCreator();
         }
         return creator;
+    }
+
+    public void defineExampleButton(TabPane tabPane,Button exampleBTN){
+        exampleBTN.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event){
+                Tab astanaTab = new Tab();
+                astanaTab.setText("Prices in Astana");
+                try{
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(Main.class.getResource("filesFXML/astana.fxml"));
+                    HBox astanaBox = loader.load();
+                    VBox vBox = (VBox) astanaBox.lookup("#tableVB");
+                    StackPane chartPane = (StackPane)astanaBox.lookup("#chartPane");
+                    ComboBox graphComboBox = (ComboBox)astanaBox.lookup("#graphCB");
+                    astanaFunction = new LinearFunction();
+                    astanaTableView = createTable(astanaTableView,vBox,astanaFunction);
+                    lineChartAstana = createLineChart("Default",astanaFunction);
+                    chartPane.getChildren().add(lineChart);
+                    astanaTableView.setEditable(true);
+                    astanaTab.setContent(astanaBox);
+                    createComboBox(graphComboBox);
+                    graphComboBox.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            astanaData = astanaTableView.getItems();
+                            String functionName = (String)graphComboBox.getValue();
+                            switch (functionName){
+                                case "Linear function":{
+                                    if(astanaData!=null){
+                                        astanaFunction = new LinearFunction(astanaData);
+                                    }else {
+                                        astanaFunction = new LinearFunction();
+                                    }
+                                }break;
+                                case "Inverse ratio function":{
+                                    if(astanaData!=null)astanaFunction = new InverseRatioFunction(astanaData);
+                                    else astanaFunction = new InverseRatioFunction();
+                                }break;
+                                case "Quadratic function":{
+                                    if(astanaData!=null)astanaFunction = new QuadraticFunction(astanaData);
+                                    else astanaFunction = new QuadraticFunction();
+                                }break;
+                                case "Logarithmic function":{
+                                    if(astanaData!=null)astanaFunction = new LogarithmicFunction(astanaData);
+                                    else astanaFunction = new LogarithmicFunction();
+                                }break;
+                                case "Exponential function":{
+                                    if(astanaData!=null)astanaFunction = new ExponentialFunction(astanaData);
+                                    else astanaFunction = new ExponentialFunction();
+                                }break;
+                                default:{
+                                    astanaFunction=new LinearFunction(astanaData);
+                                }
+                            }
+
+                            chartPane.getChildren().remove(lineChartAstana);
+                            lineChartAstana = creator.createLineChart(functionName,function);
+                            astanaTableView.setItems(astanaFunction.getDataList());
+                            chartPane.getChildren().add(lineChartAstana);
+                            astanaTab.setContent(astanaBox);
+                        }
+                    });
+                }catch (IOException e){}
+
+                tabPane.getTabs().add(astanaTab);
+            }
+        });
     }
 
     public LineChart createLineChart(String functionName,Function function){

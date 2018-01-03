@@ -8,21 +8,21 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.Calculator.Data;
-import sample.Calculator.DetCalculator;
-import sample.Calculator.DetCalculator2;
 import sample.Functions.*;
+
+import java.io.IOException;
 
 public class Main extends Application {
     private ElementCreator creator;
@@ -30,6 +30,10 @@ public class Main extends Application {
     private LineChart lineChart;
     private static Function function;
     private static ComboBox graphComboBox;
+    private Scene scene;
+    private HBox hBox;
+    private TabPane tabPane;
+    private Button exampleBTN;
     private StackPane chartPane;
     private TextField numbersTF;
 
@@ -58,11 +62,12 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("filesFXML/sample.fxml"));
         Pane root = loader.load();
-        Scene scene = new Scene(root,880,500);
+        scene = new Scene(root,880,500);
         findElements(scene);
 
         creator = ElementCreator.getInstance();
         creator.createComboBox(graphComboBox);
+        creator.defineExampleButton(tabPane,exampleBTN);
         ObservableList<Data>list = FXCollections.observableArrayList();
         for(int i=0;i<10;i++){
             Data data = new Data(0,0);
@@ -73,6 +78,7 @@ public class Main extends Application {
         chartPane.getChildren().add(lineChart);
         dataTableView = creator.createTable(dataTableView,tableBox,function);
         dataTableView.setEditable(true);
+
         if(numbersTF!=null){
             numbersTF.setOnKeyPressed(t->{
                 if(t.getCode()== KeyCode.ENTER){
@@ -155,8 +161,6 @@ public class Main extends Application {
         for(String s:solution){
             System.out.println(s);
         }*/
-
-
     }
 
     private void findElements(Scene scene){
@@ -164,6 +168,9 @@ public class Main extends Application {
         graphComboBox = (ComboBox)scene.lookup("#graphCB");
         tableBox = (VBox)scene.lookup("#tableVB");
         numbersTF = (TextField)scene.lookup("#numbersTF");
+        tabPane = (TabPane)scene.lookup("#tabPane");
+        exampleBTN = (Button)scene.lookup("#exampleBTN");
+        hBox = (HBox)scene.lookup("#tabBox");
 
     }
 

@@ -34,10 +34,6 @@ public class Controller{
 
     }
 
-    public void examplesAction(ActionEvent actionEvent){
-
-    }
-
 
     public void formulasAction(ActionEvent actionEvent) {
         comboBox = Main.getGraphComboBox();
