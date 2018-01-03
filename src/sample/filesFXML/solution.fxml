@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="sample.Controller" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Button fx:id="saveBTN" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="Save as a file">
          <VBox.margin>
@@ -21,17 +21,10 @@
             <Font name="Arial Bold" size="16.0" />
          </font>
       </Button>
-      <ScrollPane prefHeight="357.0" prefWidth="580.0">
+      <ScrollPane fx:id="solutionScroll" prefHeight="357.0" prefWidth="580.0">
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" />
          </VBox.margin>
-         <content>
-            <TextArea fx:id="solutionTA" editable="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="580.0" promptText="Solution">
-               <font>
-                  <Font name="Cambria Math" size="20.0" />
-               </font>
-            </TextArea>
-         </content>
       </ScrollPane>
    </children>
 </VBox>

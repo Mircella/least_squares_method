@@ -1,0 +1,31 @@
+<component name="libraryTable">
+  <library name="Basic">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/META-INF" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/META-INF" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/META-INF" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/META-INF" />
+    </NATIVE>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/examples/Basic" />
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/examples/Export" />
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/examples/Macros" />
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/src" />
+      <root url="file://$PROJECT_DIR$" />
+      <root url="file://$PROJECT_DIR$/src" />
+      <root url="file://$PROJECT_DIR$/src2/src" />
+      <root url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/META-INF" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$" recursive="false" />
+    <jarDirectory url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/META-INF" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$" recursive="false" type="SOURCES" />
+    <jarDirectory url="jar://$PROJECT_DIR$/jlatexmath-0.9.6-sources.jar!/META-INF" recursive="false" type="SOURCES" />
+  </library>
+</component>

@@ -43,16 +43,19 @@ public class Controller{
         comboBox = Main.getGraphComboBox();
         try{
             String functionName = (String)comboBox.getValue();
-            System.out.println(functionName);
-            formulasFrame = FormulasFrame.getInstance(functionName);
+            formulasFrame = new FormulasFrame(functionName);
+            //Main.setFormulasFrame(formulasFrame);
             formulasFrame.start(formulasStage);
         }catch (Exception e){e.printStackTrace();}
     }
 
     public void solAction(ActionEvent actionEvent){
+
         try{
-        solutionFrame = SolutionFrame.getInstance();
-        solutionFrame.start(solutionStage);
+            function = Main.getFunction();
+            solutionFrame = new SolutionFrame(function);
+           // Main.setSolutionFrame(solutionFrame);
+            solutionFrame.start(solutionStage);
     }catch (Exception e){e.printStackTrace();}
     }
 }

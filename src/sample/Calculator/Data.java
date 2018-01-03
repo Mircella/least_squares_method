@@ -12,7 +12,7 @@ public class Data {
     private DoubleProperty xProperty;
     private DoubleProperty yProperty;
     private ObservableList<Data>list;
-    //private ArrayList<Data>list;
+
     private DataGenerator dataGenerator;
     public Data() {
         dataGenerator = new DataGenerator();

@@ -8,9 +8,11 @@ public class DetCalculator {
     }
 
     public static double det(double[][]matrix){
+
         double result = 0;
         if(matrix.length==2){
             result=matrix[0][0]*matrix[1][1]- matrix[0][1]*matrix[1][0];
+
         }
         else{
             int k=-1;
@@ -18,10 +20,12 @@ public class DetCalculator {
                 result+=Math.pow(k,i)*matrix[0][i]*det(minor(matrix,0,i));
             }
         }
+
         return result;
 
     }
     private static double[][] minor(double[][]matrix,int row,int column){
+        double element = matrix[row][column];
         int minorSize = matrix.length - 1;
         int matrixSize = matrix.length;
         ArrayList<Double> list = new ArrayList<>();
@@ -42,7 +46,7 @@ public class DetCalculator {
                 minor[i][k]=list.get(minorSize*i+k);
             }
         }
-        return minor;
 
+        return minor;
     }
 }

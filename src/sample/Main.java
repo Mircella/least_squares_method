@@ -20,14 +20,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sample.Calculator.Data;
+import sample.Calculator.DetCalculator;
+import sample.Calculator.DetCalculator2;
 import sample.Functions.*;
-
 
 public class Main extends Application {
     private ElementCreator creator;
 
     private LineChart lineChart;
-    private Function function;
+    private static Function function;
     private static ComboBox graphComboBox;
     private StackPane chartPane;
     private TextField numbersTF;
@@ -35,10 +36,21 @@ public class Main extends Application {
     private VBox tableBox;
     private TableView<Data> dataTableView;
 
+    private static FormulasFrame formulasFrame;
+    private static SolutionFrame solutionFrame;
+
     private int pointNumber;
 
     public static ComboBox getGraphComboBox() {
         return graphComboBox;
+    }
+
+    public static Function getFunction() {
+        return function;
+    }
+
+    public static void setFunction(Function function) {
+        Main.function = function;
     }
 
     @Override
@@ -56,7 +68,7 @@ public class Main extends Application {
             Data data = new Data(0,0);
             list.add(data);
         }
-        function = new LinearFunction(list);
+        function = new LinearFunction();
         lineChart = creator.createLineChart("Default",function);
         chartPane.getChildren().add(lineChart);
         dataTableView = creator.createTable(dataTableView,tableBox,function);
@@ -82,6 +94,7 @@ public class Main extends Application {
                 }
             });
         }
+
         graphComboBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -123,6 +136,7 @@ public class Main extends Application {
                 prepareStage(primaryStage,scene);
                 primaryStage.show();
             }
+
         });
 
         scene.getStylesheets().add(0,"styles/style.css");
@@ -133,6 +147,16 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        /*QuadraticFunction testFunc = new QuadraticFunction();
+        double[][]matrix = testFunc.getMatrix();
+        ArrayList<String> solution  =new ArrayList<>();
+        double res = DetCalculator2.det(matrix,solution);
+        System.out.println(res);
+        for(String s:solution){
+            System.out.println(s);
+        }*/
+
+
     }
 
     private void findElements(Scene scene){

@@ -74,7 +74,7 @@ public abstract class Function {
     protected void createData(){
         data = new Data();
         dataList = data.getList();
-        data.print();
+        //data.print();
     }
 
     protected void calcDet(){
@@ -108,5 +108,37 @@ public abstract class Function {
     abstract Answer calculate();
     public double getResult(double x){
         return 0;
+    }
+
+    public double[][] getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(double[][] matrix) {
+        this.matrix = matrix;
+    }
+
+    public double[][] getMatrix1() {
+        return matrix1;
+    }
+
+    public void setMatrix1(double[][] matrix1) {
+        this.matrix1 = matrix1;
+    }
+
+    public double[][] getMatrix2() {
+        return matrix2;
+    }
+
+    public void setMatrix2(double[][] matrix2) {
+        this.matrix2 = matrix2;
+    }
+
+    public double[] getAdditionalMatrix() {
+        return additionalMatrix;
+    }
+
+    public void setAdditionalMatrix(double[] additionalMatrix) {
+        this.additionalMatrix = additionalMatrix;
     }
 }

@@ -20,47 +20,50 @@ import java.io.FileInputStream;
 
 public class FormulasFrame extends Application {
 
-    private static FormulasFrame formulasFrame;
     private Description description;
     private JLabel label;
+    private Stage stage;
+    private SwingNode swingNode;
+    private Scene scene;
+    private ScrollPane scrollPane;
+    private String functionName;
 
-    private FormulasFrame(){}
-    private FormulasFrame(String functionName){
-
-    }
-    public static FormulasFrame getInstance(String functionName){
-        if(formulasFrame==null){
-            formulasFrame = new FormulasFrame(functionName);
-        }
+    public FormulasFrame(){}
+    public FormulasFrame(String functionName){
         if(functionName==null){
-            functionName = "Inverse ratio function";
-        }
-        switch (functionName){
-            case "Linear function":{
-                formulasFrame.description = LinearFunctionDescription.getInstance();
-            }break;
-            case "Quadratic function":{}break;
-            case "Logarithmic function":{}break;
-            case "Exponential function":{}break;
-            case "Inverse ratio function":{
-                formulasFrame.description = InverseRatioFunctionDescription.getInstance();
-            }break;
+            this.functionName = "Inverse ratio function";
+        }else {
+            this.functionName = functionName;
         }
 
-        return formulasFrame;
     }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        description = defineDescription();
         FXMLLoader loader = new FXMLLoader();
         String path = "D:\\IdeaProjects\\Test\\src\\sample\\filesFXML\\formulas.fxml";
         FileInputStream fis = new FileInputStream(path);
         VBox vBox = (VBox) loader.load(fis);
-        Scene scene = new Scene(vBox,400,180);
-        ScrollPane scrollPane = (ScrollPane)scene.lookup("#myScrollPane");
+        if(scene==null){
+        scene = new Scene(vBox,400,180);
+        }
+        scrollPane = (ScrollPane)scene.lookup("#myScrollPane");
         scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-        SwingNode swingNode = new SwingNode();
+        if(swingNode==null){
+        swingNode = new SwingNode();
+        }
         createSwingContent(swingNode);
         scrollPane.setContent(swingNode);
 
@@ -71,10 +74,11 @@ public class FormulasFrame extends Application {
         primaryStage.setX(880);
         primaryStage.setY(10);
         primaryStage.show();
+
+
     }
 
     private void createSwingContent(SwingNode swingNode){
-
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -82,9 +86,23 @@ public class FormulasFrame extends Application {
                 label = description.createLabel();
                 }
                 swingNode.setContent(label);
-
             }
         });
+    }
 
+    private Description defineDescription(){
+        switch (functionName){
+            case "Linear function":{
+                description = LinearFunctionDescription.getInstance();
+            }break;
+            case "Quadratic function":{}break;
+            case "Logarithmic function":{}break;
+            case "Exponential function":{}break;
+            case "Inverse ratio function":{
+                description = InverseRatioFunctionDescription.getInstance();
+
+            }break;
+        }
+        return description;
     }
 }
