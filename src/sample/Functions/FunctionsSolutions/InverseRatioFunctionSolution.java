@@ -17,6 +17,7 @@ public class InverseRatioFunctionSolution implements Solution {
     private TeXIcon icon;
     private TeXFormula formula;
     private JLabel functionLabel;
+    private BufferedImage image;
 
     private double[][]matrix,matrix1,matrix2;
     private double[]additionalMatrix;
@@ -63,17 +64,21 @@ public class InverseRatioFunctionSolution implements Solution {
     @Override
     public JLabel createSolutionLabel() {
         createSolutionIcon();
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(50,50,icon.getIconWidth(),icon.getIconHeight());
+        g2.fillRect(0,0,icon.getIconWidth(),icon.getIconHeight());
         if(icon==null){
             icon = createSolutionIcon();
         }
         functionLabel = new JLabel("Solution",icon,JLabel.CENTER);
         functionLabel.setForeground(new Color(0, 0, 0));
-        icon.paintIcon(functionLabel, g2, 10, 10);
+        icon.paintIcon(functionLabel, g2, 0, 0);
 
         return functionLabel;
+    }
+    @Override
+    public BufferedImage getImage() {
+        return image;
     }
 }

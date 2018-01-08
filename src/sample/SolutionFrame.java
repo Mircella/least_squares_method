@@ -2,17 +2,26 @@ package sample;
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import sample.Functions.*;
 import sample.Functions.FunctionDescriptions.Description;
 import sample.Functions.FunctionsSolutions.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class SolutionFrame extends Application {
 
@@ -24,6 +33,10 @@ public class SolutionFrame extends Application {
     private SwingNode swingNode;
     private Scene scene;
     private ScrollPane scrollPane;
+    private Button saveBTN;
+    private BufferedImage image;
+
+    private DirectoryChooser directoryChooser;
 
     public SolutionFrame() {
     }
@@ -40,14 +53,10 @@ public class SolutionFrame extends Application {
         if(scene==null){
         scene = new Scene(root,600,400);
         }
-        scrollPane = (ScrollPane)scene.lookup("#solutionScroll");
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         if(swingNode==null){
             swingNode = new SwingNode();
         }
-        createSwingContent(swingNode);
-        scrollPane.setContent(swingNode);
+        defineElements(primaryStage,scene,swingNode, solution);
         scene.getStylesheets().add(0,"styles/style.css");
         primaryStage.setTitle("Solution");
         primaryStage.setScene(scene);
@@ -64,6 +73,8 @@ public class SolutionFrame extends Application {
             public void run() {
                 if(solution!=null){
                     label = solution.createSolutionLabel();
+                }else{
+                    label = new JLabel("You didn't choose a function");
                 }
                 swingNode.setContent(label);
             }
@@ -89,5 +100,35 @@ public class SolutionFrame extends Application {
             solution=null;
         }
         return solution;
+    }
+
+    private void defineElements(Stage stage, Scene scene, SwingNode swingNode, Solution solution){
+        directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choose a directory");
+        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        scrollPane = (ScrollPane)scene.lookup("#solutionScroll");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        createSwingContent(swingNode);
+        scrollPane.setContent(swingNode);
+        saveBTN = (Button)scene.lookup("#saveBTN");
+        saveBTN.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                File directory = directoryChooser.showDialog(stage);
+                if(directory!=null){
+                    System.out.println("path: "+directory.getAbsolutePath());
+                }
+                image = solution.getImage();
+                if(image!=null){
+                try {
+                    File file = new File(directory.getAbsolutePath()+"\\Example2.png");
+                    ImageIO.write(image, "png", file.getAbsoluteFile());
+                } catch (IOException ex) {
+                    ex.printStackTrace();}
+                catch (Exception e){e.printStackTrace();}
+            }
+            }
+        });
     }
 }
