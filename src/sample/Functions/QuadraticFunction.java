@@ -87,7 +87,7 @@ public class QuadraticFunction extends Function {
 
     @Override
     protected void calcDet() {
-        mainDet = DetCalculator.det(matrix);
+        mainDet = DetCalculator.det(matrix,null);
 
         matrix1 = new double[3][3];
         matrix2 = new double[3][3];
@@ -122,9 +122,9 @@ public class QuadraticFunction extends Function {
             }
         }
 
-        det1 = DetCalculator.det(matrix1);
-        det2 = DetCalculator.det(matrix2);
-        det3 = DetCalculator.det(matrix3);
+        det1 = DetCalculator.det(matrix1,null);
+        det2 = DetCalculator.det(matrix2,null);
+        det3 = DetCalculator.det(matrix3,null);
     }
 
     @Override

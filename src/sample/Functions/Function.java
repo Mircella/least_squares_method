@@ -7,7 +7,7 @@ import sample.Calculator.DetCalculator;
 import sample.Functions.FunctionDescriptions.Description;
 
 import javax.swing.*;
-import java.util.ArrayList;
+
 
 public abstract class Function {
     protected Answer answer;
@@ -34,22 +34,29 @@ public abstract class Function {
     }
 
     public Function() {
-        if(this.getClass()==LinearFunction.class){
-            System.out.println("Linear function was created\nIts data:");
-        }else if(this.getClass() == InverseRatioFunction.class){
-            System.out.println("InverseRatioFunction was created\nIts data:");
-        }else if(this.getClass()==LogarithmicFunction.class){
-            System.out.println("Logarithmic function was created.\nIts data:");
-        }else if(this.getClass()==ExponentialFunction.class){
-            System.out.println("Exponential function was created\nIts data:");
-        }else if(this.getClass()==QuadraticFunction.class){
-            System.out.println("Quadratic function was created\nIts data:");
+        if(this.getClass()==LinearFunction.class||
+                this.getClass()==InverseRatioFunction.class||
+                this.getClass()==LogarithmicFunction.class||
+                this.getClass()==ExponentialFunction.class||
+                this.getClass()==QuadraticFunction.class){
+            if(this.getClass()==LinearFunction.class){
+                System.out.println("Linear function was created\nIts data:");
+            }else if(this.getClass() == InverseRatioFunction.class){
+                System.out.println("InverseRatioFunction was created\nIts data:");
+            }else if(this.getClass()==LogarithmicFunction.class){
+                System.out.println("Logarithmic function was created.\nIts data:");
+            }else if(this.getClass()==ExponentialFunction.class){
+                System.out.println("Exponential function was created\nIts data:");
+            }else if(this.getClass()==QuadraticFunction.class){
+                System.out.println("Quadratic function was created\nIts data:");
+            }
+            createData();
+            matrix();
+            additionalMatrix();
+            calcDet();
+            answer = calculate();
         }
-        createData();
-        matrix();
-        additionalMatrix();
-        calcDet();
-        answer = calculate();
+
     }
 
     public Function(ObservableList<Data> dataList) {
@@ -78,7 +85,7 @@ public abstract class Function {
     }
 
     protected void calcDet(){
-        mainDet = DetCalculator.det(matrix);
+        mainDet = DetCalculator.det(matrix,null);
 
         matrix1 = new double[2][2];
         matrix2 = new double[2][2];
@@ -102,8 +109,8 @@ public abstract class Function {
             }
         }
 
-        det1 = DetCalculator.det(matrix1);
-        det2 = DetCalculator.det(matrix2);
+        det1 = DetCalculator.det(matrix1,null);
+        det2 = DetCalculator.det(matrix2,null);
     }
     abstract Answer calculate();
     public double getResult(double x){

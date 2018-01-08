@@ -81,23 +81,32 @@
                                                 <Button fx:id="exampleBTN" layoutX="165.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Examples" />
                                              </children>
                                           </Pane>
-                                          <Pane prefHeight="40.0" prefWidth="270.0">
+                                          <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="270.0">
                                              <children>
-                                                <Button layoutX="165.0" layoutY="5.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Add..." />
+                                                <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="155.0" text="Power of polynom:">
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="powerTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="100.0" promptText="3">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
                                              </children>
-                                          </Pane>
+                                          </HBox>
                                        </children>
                                     </VBox>
                                     <VBox fx:id="vBoxChartID" maxHeight="1.7976931348623157E308" prefHeight="470.0" prefWidth="630.0">
                                        <children>
                                           <HBox prefHeight="40.0">
                                              <children>
-                                                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Range...">
+                                                <Button fx:id="rangeBTN" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Range...">
                                                    <HBox.margin>
                                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                    </HBox.margin>
                                                 </Button>
-                                                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Analyse">
+                                                <Button mnemonicParsing="false" onAction="#analyseAction" prefHeight="30.0" prefWidth="100.0" text="Analyse">
                                                    <HBox.margin>
                                                       <Insets bottom="5.0" top="5.0" />
                                                    </HBox.margin>

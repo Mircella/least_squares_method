@@ -19,6 +19,7 @@ public class LinearFunction extends Function{
 
     public LinearFunction(ObservableList<Data> dataList) {
         super(dataList);
+        System.out.println("Result of linear function is "+answer.getFunction());
     }
 
     @Override
@@ -100,7 +101,7 @@ public class LinearFunction extends Function{
 
     @Override
     public JLabel getFunctionLabel() {
-        functionLabel = LinearFunctionDescription.getInstance().createLabel();
+        //functionLabel = LinearFunctionDescription.getInstance().createLabel();
         return functionLabel;
     }
 

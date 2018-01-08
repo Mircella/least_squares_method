@@ -18,7 +18,6 @@ public class Controller{
     Stage exmplesStage = new Stage();
     private FormulasFrame formulasFrame;
     private SolutionFrame solutionFrame;
-    private ExamplesFrame examplesFrame;
     private Function function;
 
     @FXML
@@ -30,7 +29,8 @@ public class Controller{
     }
 
     private ComboBox comboBox;
-    public void graphAction(ActionEvent actionEvent) {
+
+    public void analyseAction(ActionEvent actionEvent) {
 
     }
 

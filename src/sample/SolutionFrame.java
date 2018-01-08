@@ -82,7 +82,10 @@ public class SolutionFrame extends Application {
             solution = new ExponentialFunctionSolution((ExponentialFunction) function);
         }else if(function instanceof QuadraticFunction){
             solution = new QuadraticFunctionSolution((QuadraticFunction) function);
-        }else {
+        }else if(function instanceof Polynom){
+            solution = new PolynomSolution((Polynom) function);
+        }
+        else {
             solution=null;
         }
         return solution;

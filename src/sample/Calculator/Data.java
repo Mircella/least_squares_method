@@ -3,6 +3,7 @@ package sample.Calculator;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.omg.CORBA.DATA_CONVERSION;
 
@@ -71,5 +72,22 @@ public class Data {
         }else{
             System.out.println("list is empty");
         }
+    }
+
+    public static ObservableList<Data>createDefaultList(){
+        ObservableList<Data> list = FXCollections.observableArrayList();
+        list.add(new Data(1, 8));
+        list.add(new Data(2, 6));
+        list.add(new Data(3, 4));
+        list.add(new Data(6, 3));
+        list.add(new Data(7, 3));
+        list.add(new Data(10, 2));
+        list.add(new Data(12, 1));
+        list.add(new Data(9, 2));
+        list.add(new Data(11, 1));
+        list.add(new Data(10, 2));
+        list.add(new Data(8, 4));
+        list.add(new Data(5, 2));
+        return list;
     }
 }

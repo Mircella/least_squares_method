@@ -16,9 +16,7 @@ public class LogarithmicFunctionDescription implements Description {
     private static LogarithmicFunctionDescription logarithmicFunctionDescription;
 
     private LogarithmicFunctionDescription() {
-        description = createDiscription();
-        icon = createIcon();
-        functionLabel = createLabel();
+        System.out.println("Create Log description");
     }
 
     public static LogarithmicFunctionDescription getInstance() {
@@ -29,50 +27,81 @@ public class LogarithmicFunctionDescription implements Description {
     }
 
     public JLabel getFunctionLabel() {
+        if(functionLabel==null||icon==null||description.equals("")){
+            System.out.println("Smth does not exist");
+        }
         return functionLabel;
     }
 
     @Override
     public String createDiscription() {
         description = "\\begin{array}{l}";
-        description+="The\\ sum\\ of\\ the\\ minimal\\ squares\\ of\\\\" +
-                " distances\\ between\\ the\\ points\\ of\\ data\\\\" +
-                " and\\ the\\ points\\ of\\ the\\ graph\\ is\\ equal\\ to:\\\\";
-        description+="\\ e^{2}=\\sum_{i=1}^{n}(y_{i}-f(x_{i},a_{1},a_{2},\\cdots\\ a_{k}))^{2}\\\\";
-        description+="\\ where\\ a_{1},a_{2},\\cdots\\ a_{k}\\ are\\ parameters\\\\";
-        description+="The\\ condition\\ for\\ R^{2}\\ to\\ be\\ a\\ minimum\\ is\\ that:\\\\";
-        description+="\\frac{\\partial (e^{2})}{\\partial a_{i}}=0\\\\";
-
+        description+="Given\\ a\\ function\\ of\\ the\\ form\\\\";
+        description+="\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ y = a+b\\ ln\\ x,\\\\";
+        description+="the\\ coefficients\\ can\\ be\\ found\\ from\\ least\\ squares\\ fitting\\ as\\\\";
+        description+="\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ b=\\frac{n\\sum_{i=1}^{n}(y_{i}\\ ln\\ x_{i})-\\sum_{i=1}^{n}y_{i}\\sum_{i=1}^{n} ln\\ x_{i}}\n" +
+                "{n\\sum_{i=1}^{n}(ln\\ x_{i})^{2}-(\\sum_{i=1}^{n}ln\\ x_{i})^{2}}\\\\";
+        description+="\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ a=\\frac{\\sum_{i=1}^{n} y_{i}-b\\sum_{i=1}^{n}(ln\\ x_{i})}{n}\\\\";
         return description;
     }
 
     @Override
-    public TeXIcon createIcon() {
+    public TeXIcon createIcon(String description) {
         if(description.equals("")){
+            System.out.println("no descr");
             formula = new TeXFormula(true,"No formula");
         }else{
             formula = new TeXFormula(true, description);}
         icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15);
         icon.setInsets(new Insets(0, 0, 0, 0));
-        icon.setIconHeight(100,TeXConstants.ALIGN_CENTER);
+        icon.setIconHeight(180,TeXConstants.ALIGN_CENTER);
         icon.setIconWidth(380,TeXConstants.ALIGN_LEFT);
         return icon;
     }
 
     @Override
-    public JLabel createLabel() {
+    public JLabel createLabel(TeXIcon icon) {
         BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(50,50,icon.getIconWidth(),icon.getIconHeight());
+        g2.fillRect(0,0,icon.getIconWidth(),icon.getIconHeight());
         if(icon==null){
-            icon = createIcon();
+            System.out.println("no icon");
         }
         functionLabel = new JLabel("Formulas",icon,JLabel.CENTER);
         functionLabel.setForeground(new Color(0, 0, 0));
         icon.paintIcon(functionLabel, g2, 10, 10);
 
         return functionLabel;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public TeXIcon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(TeXIcon icon) {
+        this.icon = icon;
+    }
+
+    public TeXFormula getFormula() {
+        return formula;
+    }
+
+    public void setFormula(TeXFormula formula) {
+        this.formula = formula;
+    }
+
+    public void setFunctionLabel(JLabel functionLabel) {
+        this.functionLabel = functionLabel;
     }
 }
 

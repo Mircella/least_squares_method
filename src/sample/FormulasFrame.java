@@ -10,9 +10,9 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sample.Functions.FunctionDescriptions.Description;
-import sample.Functions.FunctionDescriptions.InverseRatioFunctionDescription;
-import sample.Functions.FunctionDescriptions.LinearFunctionDescription;
+import org.scilab.forge.jlatexmath.TeXFormula;
+import org.scilab.forge.jlatexmath.TeXIcon;
+import sample.Functions.FunctionDescriptions.*;
 
 import javax.swing.*;
 
@@ -22,6 +22,9 @@ public class FormulasFrame extends Application {
 
     private Description description;
     private JLabel label;
+    private String descriptionText;
+    private TeXIcon icon;
+    private TeXFormula formula;
     private Stage stage;
     private SwingNode swingNode;
     private Scene scene;
@@ -52,9 +55,7 @@ public class FormulasFrame extends Application {
     public void start(Stage primaryStage) throws Exception {
         description = defineDescription();
         FXMLLoader loader = new FXMLLoader();
-        String path = "D:\\IdeaProjects\\Test\\src\\sample\\filesFXML\\formulas.fxml";
-        FileInputStream fis = new FileInputStream(path);
-        VBox vBox = (VBox) loader.load(fis);
+        VBox vBox = (VBox) loader.load(getClass().getResource("filesFXML/formulas.fxml"));
         if(scene==null){
         scene = new Scene(vBox,400,180);
         }
@@ -83,7 +84,10 @@ public class FormulasFrame extends Application {
             @Override
             public void run() {
                 if(description!=null){
-                label = description.createLabel();
+                descriptionText = description.createDiscription();
+                icon = description.createIcon(descriptionText);
+                label = description.createLabel(icon);
+                    //label = description.getFunctionLabel();
                 }
                 swingNode.setContent(label);
             }
@@ -95,13 +99,24 @@ public class FormulasFrame extends Application {
             case "Linear function":{
                 description = LinearFunctionDescription.getInstance();
             }break;
-            case "Quadratic function":{}break;
-            case "Logarithmic function":{}break;
-            case "Exponential function":{}break;
+            case "Quadratic function":{
+                description = QuadraticFunctionDescription.getInstance();
+            }break;
+            case "Logarithmic function":{
+                description = LogarithmicFunctionDescription.getInstance();
+            }break;
+            case "Exponential function":{
+                description = ExponentialFunctionDescription.getInstance();
+            }break;
             case "Inverse ratio function":{
                 description = InverseRatioFunctionDescription.getInstance();
-
             }break;
+            case "Polynom":{
+                description = PolynomDescription.getInstance();
+            }break;
+            default:{
+                description = DefaultDescription.getInstance();
+            }
         }
         return description;
     }

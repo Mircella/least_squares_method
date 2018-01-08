@@ -3,6 +3,7 @@ package sample.Calculator;
 public class Answer {
     private String function;
     private double a,b,c;
+    private double[]koefficients;
     public Answer() {
     }
 
@@ -17,6 +18,11 @@ public class Answer {
         this.a = a;
         this.b = b;
         this.c = c;
+    }
+
+    public Answer(String function,double[]koefficients){
+        this.function = function;
+        this.koefficients=koefficients;
     }
 
     public String getFunction() {
@@ -49,5 +55,13 @@ public class Answer {
 
     public void setC(double c) {
         this.c = c;
+    }
+
+    public double[] getKoefficients() {
+        return koefficients;
+    }
+
+    public void setKoefficients(double[] koefficients) {
+        this.koefficients = koefficients;
     }
 }

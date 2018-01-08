@@ -3,11 +3,9 @@ package sample.Functions;
 import javafx.collections.ObservableList;
 import sample.Calculator.Answer;
 import sample.Calculator.Data;
-import sample.Main;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 
 public class ExponentialFunction extends Function {
 
