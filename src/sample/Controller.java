@@ -3,19 +3,28 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import sample.Calculator.Data;
 import sample.Functions.Function;
 import sample.Functions.LinearFunction;
 
+import java.io.IOException;
+
 public class Controller{
     Stage formulasStage = new Stage();
     Stage solutionStage = new Stage();
-    Stage exmplesStage = new Stage();
+    private Stage analyseStage;
+    private Scene analyseScene;
+    private ScrollPane analyseScrollPane;
+    private StackPane analyseStackPane;
     private FormulasFrame formulasFrame;
     private SolutionFrame solutionFrame;
     private Function function;
@@ -30,8 +39,22 @@ public class Controller{
 
     private ComboBox comboBox;
 
-    public void analyseAction(ActionEvent actionEvent) {
-
+    public void analyseAction(ActionEvent actionEvent) throws IOException{
+        if(analyseStage==null){
+        analyseStage = new Stage();
+        }
+        analyseStage.setTitle("Analyse");
+        analyseStackPane = FXMLLoader.load(getClass().getResource("filesFXML/analyse.fxml"));
+        if(analyseScene==null){
+        analyseScene = new Scene(analyseStackPane,600,400);
+        }
+        analyseScrollPane = (ScrollPane) analyseScene.lookup("#analyseSP");
+        analyseScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        analyseScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        analyseStage.setScene(analyseScene);
+        analyseStage.setX(Main.primaryStage.getX()-200);
+        analyseStage.setY(Main.primaryStage.getY()+100);
+        analyseStage.show();
     }
 
 
@@ -40,7 +63,6 @@ public class Controller{
         try{
             String functionName = (String)comboBox.getValue();
             formulasFrame = new FormulasFrame(functionName);
-            //Main.setFormulasFrame(formulasFrame);
             formulasFrame.start(formulasStage);
         }catch (Exception e){e.printStackTrace();}
     }
@@ -50,7 +72,6 @@ public class Controller{
         try{
             function = Main.getFunction();
             solutionFrame = new SolutionFrame(function);
-           // Main.setSolutionFrame(solutionFrame);
             solutionFrame.start(solutionStage);
     }catch (Exception e){e.printStackTrace();}
     }

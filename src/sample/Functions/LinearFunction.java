@@ -35,13 +35,13 @@ public class LinearFunction extends Function{
         for(int i=0;i<dataList.size();i++){
             element+=Math.pow(dataList.get(i).getX(),2);
         }
-        element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+        element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         matrix[0][0]=element;
         element=0;
         for(int i=0;i<dataList.size();i++){
             element+=dataList.get(i).getX();
         }
-        element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+        element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         matrix[0][1]=element;
         matrix[1][0]=element;
         matrix[1][1]=dataList.size();
@@ -64,13 +64,13 @@ public class LinearFunction extends Function{
         for(int i=0;i<dataList.size();i++){
             element+=dataList.get(i).getX()*dataList.get(i).getY();
         }
-        element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+        element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         additionalMatrix[0]=element;
         element=0;
         for(int i=0;i<dataList.size();i++){
             element+=dataList.get(i).getY();
         }
-        element = new BigDecimal(element).setScale(3,RoundingMode.UP).doubleValue();
+        element = new BigDecimal(element).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
         additionalMatrix[1]=element;
         /*System.out.println("Additional column");
         for(int i=0;i<additionalMatrix.length;i++){
@@ -88,9 +88,9 @@ public class LinearFunction extends Function{
     protected Answer calculate() {
         try {
             double a = det1/mainDet;
-            a = new BigDecimal(a).setScale(3,RoundingMode.UP).doubleValue();
+            a = new BigDecimal(a).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
             double b = det2/mainDet;
-            b = new BigDecimal(b).setScale(3,RoundingMode.UP).doubleValue();
+            b = new BigDecimal(b).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
             String function = "y = "+String.valueOf(a)+"*x "+(b>0?"+ ":"- ")+String.valueOf(Math.abs(b));
             answer = new Answer(function,a,b);
         }catch (Exception e){

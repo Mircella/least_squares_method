@@ -61,8 +61,8 @@ public class SolutionFrame extends Application {
         primaryStage.setTitle("Solution");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
-        primaryStage.setX(780);
-        primaryStage.setY(250);
+        primaryStage.setX(Main.primaryStage.getX()+500);
+        primaryStage.setY(Main.primaryStage.getY()+250);
         primaryStage.show();
     }
 
@@ -116,9 +116,6 @@ public class SolutionFrame extends Application {
             @Override
             public void handle(ActionEvent event) {
                 File directory = directoryChooser.showDialog(stage);
-                if(directory!=null){
-                    System.out.println("path: "+directory.getAbsolutePath());
-                }
                 image = solution.getImage();
                 if(image!=null){
                 try {
@@ -126,6 +123,7 @@ public class SolutionFrame extends Application {
                     ImageIO.write(image, "png", file.getAbsoluteFile());
                 } catch (IOException ex) {
                     ex.printStackTrace();}
+                    catch (NullPointerException e){e.printStackTrace();}
                 catch (Exception e){e.printStackTrace();}
             }
             }

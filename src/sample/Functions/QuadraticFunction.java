@@ -31,20 +31,20 @@ public class QuadraticFunction extends Function {
             for(int i=0;i<dataList.size();i++){
                 element+=Math.pow(dataList.get(i).getX(),4);
             }
-            element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+            element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
             matrix[0][0]=element;
             element=0;
             for(int i=0;i<dataList.size();i++){
                 element+=Math.pow(dataList.get(i).getX(),3);
             }
-            element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+            element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
             matrix[0][1]=element;
             matrix[1][0]=element;
             element=0;
             for(int i=0;i<dataList.size();i++){
                 element+=Math.pow(dataList.get(i).getX(),2);
             }
-            element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+            element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
             matrix[0][2]=element;
             matrix[1][1]=element;
             matrix[2][0]=element;
@@ -52,7 +52,7 @@ public class QuadraticFunction extends Function {
             for(int i=0;i<dataList.size();i++){
                 element+=dataList.get(i).getX();
             }
-            element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+            element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
             matrix[1][2]=element;
             matrix[2][1]=element;
             matrix[2][2]=dataList.size();
@@ -67,19 +67,19 @@ public class QuadraticFunction extends Function {
         for(int i=0;i<dataList.size();i++){
             element+=Math.pow(dataList.get(i).getX(),2)*dataList.get(i).getY();
         }
-        element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+        element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         additionalMatrix[0]=element;
         element=0;
         for(int i=0;i<dataList.size();i++){
             element+=dataList.get(i).getX()*dataList.get(i).getY();
         }
-        element = new BigDecimal(element).setScale(3, RoundingMode.UP).doubleValue();
+        element = new BigDecimal(element).setScale(3, BigDecimal.ROUND_CEILING).doubleValue();
         additionalMatrix[1]=element;
         element=0;
         for(int i=0;i<dataList.size();i++){
             element+=dataList.get(i).getY();
         }
-        element = new BigDecimal(element).setScale(3,RoundingMode.UP).doubleValue();
+        element = new BigDecimal(element).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
         additionalMatrix[2]=element;
 
         return additionalMatrix;
@@ -131,11 +131,11 @@ public class QuadraticFunction extends Function {
     Answer calculate() {
         try {
             double a = det1/mainDet;
-            a = new BigDecimal(a).setScale(3,RoundingMode.UP).doubleValue();
+            a = new BigDecimal(a).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
             double b = det2/mainDet;
-            b = new BigDecimal(b).setScale(3,RoundingMode.UP).doubleValue();
+            b = new BigDecimal(b).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
             double c = det3/mainDet;
-            c = new BigDecimal(c).setScale(3,RoundingMode.UP).doubleValue();
+            c = new BigDecimal(c).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
             double moduleB = Math.abs(b);
             double moduleC = Math.abs(c);
             String s1 = "y = "+String.valueOf(a)+"*x^2";
@@ -151,8 +151,8 @@ public class QuadraticFunction extends Function {
 
     @Override
     public double getResult(double x) {
-        double d1 = new BigDecimal(answer.getA()*Math.pow(x,2)).setScale(3,RoundingMode.UP).doubleValue();
-        double d2 = new BigDecimal(answer.getB()*x).setScale(3,RoundingMode.UP).doubleValue();
+        double d1 = new BigDecimal(answer.getA()*Math.pow(x,2)).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
+        double d2 = new BigDecimal(answer.getB()*x).setScale(3,BigDecimal.ROUND_CEILING).doubleValue();
         result = d1+d2+answer.getC();
         return result;
     }

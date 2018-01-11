@@ -2,6 +2,7 @@ package sample;
 
 import javafx.application.Application;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +19,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import sample.Calculator.Analyse;
+import sample.Calculator.Answer;
 import sample.Calculator.Data;
 import sample.Functions.*;
 
@@ -29,6 +32,7 @@ public class Main extends Application {
     private LineChart lineChart;
     private static Function function;
     private static ComboBox graphComboBox;
+    public static Stage primaryStage;
     private Scene scene;
     private HBox hBox;
     private GridPane dialogHBX, dialogHBY;
@@ -64,6 +68,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Main.primaryStage = primaryStage;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("filesFXML/sample.fxml"));
         Pane root = loader.load();
@@ -85,7 +90,7 @@ public class Main extends Application {
 
 
         public static void main (String[]args){
-            launch(args);
+        launch(args);
        /*double[][]matrix2 = {
                 {1,4,5,6,8},
                 {3,6,7,4,3},
@@ -99,14 +104,11 @@ public class Main extends Application {
        list.add(new Data(3,1));
        list.add(new Data(2,3));
        list.add(new Data(1,1));
+       Function function = new LogarithmicFunction(list);
+       Analyse analyse = new Analyse(function);
+       System.out.println("Result of analyse "+analyse.toString());*/
 
-       Polynom polynom = new Polynom(list,3);
-       Answer answer = polynom.getAnswer();
-       System.out.println("answer "+answer.getFunction());
-       double[]resultMatrix3 = answer.getKoefficients();
-       for(int i=0;i<resultMatrix3.length;i++){System.out.println(resultMatrix3[i]);}*/
-
-        }
+       }
 
         private void findElements (Scene scene){
             chartPane = (StackPane) scene.lookup("#chartPane");
@@ -131,8 +133,6 @@ public class Main extends Application {
             primaryStage.setTitle("Least Square Method");
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
-            primaryStage.setX(10);
-            primaryStage.setY(10);
         }
 
         private void defineListeners(Stage primaryStage, ObservableList<Data> list){

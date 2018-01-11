@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -15,10 +16,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import javafx.scene.text.TextAlignment;
 import javafx.util.converter.DoubleStringConverter;
 import sample.Calculator.Data;
 import sample.Functions.*;
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.IllegalFormatException;
+import java.util.Optional;
 
 public class ElementCreator {
     private XYChart.Series series,graph;
@@ -38,6 +42,16 @@ public class ElementCreator {
     private StackPane chartPane;
     private ComboBox graphComboBox;
     private Alert inputAlert;
+    private Button rangeBTN;
+    private Alert powerAlert,rangeDialog;
+    private GridPane dialogHBX, dialogHBY;
+    private VBox dialogVB;
+    private double[]axis;
+    private Optional<ButtonType> result;
+    private ButtonType okBTN, cancelBTN;
+    private TextField fromTFX, toTFX, fromTFY, toTFY;
+    private Label taskLabelX, taskLabelY, taskLabel;
+    private String functionName;
 
     private NumberAxis xAxis;
     private NumberAxis yAxis;
@@ -61,6 +75,7 @@ public class ElementCreator {
             public void handle(ActionEvent event){
                 Tab astanaTab = new Tab();
                 astanaTab.setText("Prices in Astana");
+                astanaTab.setClosable(true);
                 try{
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(Main.class.getResource("filesFXML/astana.fxml"));
@@ -79,7 +94,7 @@ public class ElementCreator {
                         @Override
                         public void handle(ActionEvent event) {
                             astanaData = astanaTableView.getItems();
-                            String functionName = (String)graphComboBox.getValue();
+                            functionName = (String)graphComboBox.getValue();
                             switch (functionName){
                                 case "Linear function":{
                                     if(astanaData!=null){
@@ -175,22 +190,11 @@ public class ElementCreator {
         double dX = xAxis.getTickUnit();
 
         for(x1=xAxis.getLowerBound();x1<=x2;x1+=dX){
-            if (x1 == 0 && function instanceof InverseRatioFunction) {
+            if (x1 == 0 && (function instanceof InverseRatioFunction||function instanceof LogarithmicFunction)) {
             x1=1;
             }
             graph.getData().add(new XYChart.Data(x1,function.getResult(x1)));
         }
-        /*if(function instanceof InverseRatioFunction){
-            for(int i=0;i<list.size();i++){
-                if(list.get(i).getX()==0){
-                    list.get(i).setX(1);
-                }
-            }
-        }
-        for(int i=0;i<list.size();i++){
-            double x = list.get(i).getX();
-            graph.getData().add(new XYChart.Data(x,function.getResult(x)));
-        }*/
 
         return graph;
     }
@@ -484,7 +488,16 @@ public class ElementCreator {
 
     private ObservableList<Data>fillList(){
         ObservableList<Data>list = FXCollections.observableArrayList();
-        list.add(new Data(21.35,7.72));
+        list.add(new Data(19.90,9.55));//may 2013
+        list.add(new Data(19.98,9.34));
+        list.add(new Data(20.25,8.59));
+        list.add(new Data(20.17,8.82));
+        list.add(new Data(20.62,7.48));
+        list.add(new Data(20.50,7.86));
+        list.add(new Data(20.71,7.20));//november 2013
+        list.add(new Data(20.95,6.40));
+        list.add(new Data(21.23,6.66));
+        list.add(new Data(21.35,7.72));//february 2014
         list.add(new Data(21.24,5.54));
         list.add(new Data(21.01,8.44));
         list.add(new Data(20.84,6.11));
@@ -503,6 +516,45 @@ public class ElementCreator {
         list.add(new Data(18.53,14.20));
         list.add(new Data(18.18,13.03));
         list.add(new Data(17.89,13.85));
+        list.add(new Data(17.11,13.76));
+        list.add(new Data(16.04,14.81));
+        list.add(new Data(15.27,12.33));//november 2015
+        return list;
+    }
+
+    private ObservableList<Data>fillList2(){
+        ObservableList<Data>list = FXCollections.observableArrayList();
+        list.add(new Data(19.90,34.45));//may 2013
+        list.add(new Data(19.98,36.48));
+        list.add(new Data(20.25,41.62));
+        list.add(new Data(20.17,42.30));
+        list.add(new Data(20.62,33.78));
+        list.add(new Data(20.50,33.43));
+        list.add(new Data(20.71,32.40));//november 2013
+        list.add(new Data(20.95,24.90));
+        list.add(new Data(21.23,30.38));
+        list.add(new Data(21.35,29.88));//february 2014
+        list.add(new Data(21.24,30.49));
+        list.add(new Data(21.01,30.17));
+        list.add(new Data(20.84,31.168));
+        list.add(new Data(20.47,31.32));
+        list.add(new Data(20.28,31.57));//july 2014
+        list.add(new Data(20.11,35.33));
+        list.add(new Data(20.17,19.53));
+        list.add(new Data(20.17,29.75));
+        list.add(new Data(20.18,31.67));
+        list.add(new Data(19.88,30.70));
+        list.add(new Data(19.71,34.89));
+        list.add(new Data(19.51,34.84));
+        list.add(new Data(19.17,38.25));
+        list.add(new Data(18.89,40.31));
+        list.add(new Data(18.65,38.25));
+        list.add(new Data(18.53,37.72));
+        list.add(new Data(18.18,39.74));
+        list.add(new Data(17.89,44.36));
+        list.add(new Data(17.11,43.82));
+        list.add(new Data(16.04,55.04));
+        list.add(new Data(15.27,57.57));//november 2015
         return list;
     }
 
@@ -511,5 +563,101 @@ public class ElementCreator {
         vBox2 = (VBox) astanaBox.lookup("#tableVB2");
         chartPane = (StackPane)astanaBox.lookup("#chartPane");
         graphComboBox = (ComboBox)astanaBox.lookup("#graphCB");
+        rangeBTN = (Button)astanaBox.lookup("#rangeBTN");
+        rangeBTN.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                showDialog();
+            }
+        });
+
+    }
+    private void showDialog(){
+        rangeDialog = new Alert(Alert.AlertType.NONE);
+        rangeDialog.setTitle("Range");
+        rangeDialog.setHeaderText(null);
+        dialogVB = createDialogContent();
+        rangeDialog.getDialogPane().setContent(dialogVB);
+        rangeDialog.getButtonTypes().clear();
+        okBTN = new ButtonType("OK");
+        cancelBTN = new ButtonType("Cancel");
+        rangeDialog.getButtonTypes().addAll(okBTN,cancelBTN);
+        result = rangeDialog.showAndWait();
+        if(result.get()==cancelBTN){
+            System.out.println("No selection");
+        }else if(result.get()==okBTN){
+            try {
+                String X1 = fromTFX.getText();
+                String X2 = toTFX.getText();
+                String Y1 = fromTFY.getText();
+                String Y2 = toTFY.getText();
+                double x1 = Double.parseDouble(X1);
+                double x2 = Double.parseDouble(X2);
+                double y1 = Double.parseDouble(Y1);
+                double y2 = Double.parseDouble(Y2);
+                if(x1>=x2||y1>=y2){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText(null);
+                    powerAlert.setContentText("Incorrect ranges!");
+                    powerAlert.showAndWait();
+                    showDialog();
+                }
+                axis = new double[4];
+                axis[0]=x1;
+                axis[1]=x2;
+                axis[2]=y1;
+                axis[3]=y2;
+                chartPane.getChildren().remove(lineChartAstana);
+                lineChartAstana = creator.createLineChart(functionName,astanaFunction,astanaTableView,axis);
+                chartPane.getChildren().add(lineChartAstana);
+            }catch (Exception e){
+                powerAlert = new Alert(Alert.AlertType.ERROR);
+                powerAlert.setTitle("Error");
+                powerAlert.setHeaderText(null);
+                powerAlert.setContentText("Please enter the correct numbers!");
+                powerAlert.showAndWait();
+                showDialog();
+            }
+        }
+
+    }
+
+    private VBox createDialogContent(){
+        VBox dialogVB = new VBox();
+
+        taskLabel = new Label("Enter new coordinates:");
+        taskLabel.setTextAlignment(TextAlignment.CENTER);
+
+        dialogHBX = new GridPane();
+        dialogHBX.setAlignment(Pos.CENTER);
+        dialogHBX.setHgap(5);
+        dialogHBX.setPadding(new Insets(10));
+        taskLabelX = new Label("X (from/to):");
+        taskLabelX.setTextAlignment(TextAlignment.CENTER);
+        fromTFX = new TextField();
+        fromTFX.setPromptText("0");
+        toTFX = new TextField();
+        toTFX.setPromptText("10");
+        dialogHBX.add(taskLabelX,0,0);
+        dialogHBX.add(fromTFX,1,0);
+        dialogHBX.add(toTFX,2,0);
+
+        dialogHBY = new GridPane();
+        dialogHBY.setAlignment(Pos.CENTER);
+        dialogHBY.setHgap(5);
+        dialogHBY.setPadding(new Insets(10));
+        taskLabelY = new Label("Y (from/to):");
+        taskLabelY.setTextAlignment(TextAlignment.CENTER);
+        fromTFY = new TextField();
+        fromTFY.setPromptText("0");
+        toTFY = new TextField();
+        toTFY.setPromptText("10");
+        dialogHBY.add(taskLabelY,0,0);
+        dialogHBY.add(fromTFY,1,0);
+        dialogHBY.add(toTFY,2,0);
+
+        dialogVB.getChildren().addAll(taskLabel,dialogHBX,dialogHBY);
+        return dialogVB;
     }
 }

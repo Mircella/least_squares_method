@@ -67,7 +67,7 @@ public class Polynom extends Function {
         try {
             resultMatrixCopy = new double[resultMatrix.length];
             for(int i=0;i<resultMatrixCopy.length;i++){
-                resultMatrixCopy[i]=new BigDecimal(resultMatrix[i]/inverseFactor).setScale(2, RoundingMode.UP).doubleValue();
+                resultMatrixCopy[i]=new BigDecimal(resultMatrix[i]/inverseFactor).setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
             }
             StringBuilder sb = new StringBuilder("y = ");
             for (int i=resultMatrixCopy.length-1;i>=0;i--){
@@ -97,7 +97,7 @@ public class Polynom extends Function {
     public double getResult(double x) {
         result=0;
         for(int i=0;i<resultMatrixCopy.length;i++){
-            result+=new BigDecimal(resultMatrixCopy[i]*Math.pow(x,i)).setScale(2,RoundingMode.UP).doubleValue();
+            result+=new BigDecimal(resultMatrixCopy[i]*Math.pow(x,i)).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
         }
         return result;
     }

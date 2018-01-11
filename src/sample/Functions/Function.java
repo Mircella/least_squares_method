@@ -1,6 +1,7 @@
 package sample.Functions;
 
 import javafx.collections.ObservableList;
+import sample.Calculator.Analyse;
 import sample.Calculator.Answer;
 import sample.Calculator.Data;
 import sample.Calculator.DetCalculator;
@@ -10,6 +11,7 @@ import javax.swing.*;
 
 
 public abstract class Function {
+    protected Analyse analyse;
     protected Answer answer;
     protected Data data;
     protected ObservableList<Data> dataList;
@@ -147,5 +149,81 @@ public abstract class Function {
 
     public void setAdditionalMatrix(double[] additionalMatrix) {
         this.additionalMatrix = additionalMatrix;
+    }
+
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    public void setDataList(ObservableList<Data> dataList) {
+        this.dataList = dataList;
+    }
+
+    public double getElement() {
+        return element;
+    }
+
+    public void setElement(double element) {
+        this.element = element;
+    }
+
+    public double getMainDet() {
+        return mainDet;
+    }
+
+    public void setMainDet(double mainDet) {
+        this.mainDet = mainDet;
+    }
+
+    public double getDet1() {
+        return det1;
+    }
+
+    public void setDet1(double det1) {
+        this.det1 = det1;
+    }
+
+    public double getDet2() {
+        return det2;
+    }
+
+    public void setDet2(double det2) {
+        this.det2 = det2;
+    }
+
+    public double getResult() {
+        return result;
+    }
+
+    public void setResult(double result) {
+        this.result = result;
+    }
+
+    public void setFunctionLabel(JLabel functionLabel) {
+        this.functionLabel = functionLabel;
+    }
+
+    public Description getFunctionDescription() {
+        return functionDescription;
+    }
+
+    public void setFunctionDescription(Description functionDescription) {
+        this.functionDescription = functionDescription;
+    }
+
+    public Analyse getAnalyse() {
+        return analyse;
+    }
+
+    public void setAnalyse(Analyse analyse) {
+        this.analyse = analyse;
     }
 }

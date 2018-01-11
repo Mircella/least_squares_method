@@ -34,7 +34,7 @@ public class FormulasFrame extends Application {
     public FormulasFrame(){}
     public FormulasFrame(String functionName){
         if(functionName==null){
-            this.functionName = "Inverse ratio function";
+            this.functionName = "Default";
         }else {
             this.functionName = functionName;
         }
@@ -48,8 +48,6 @@ public class FormulasFrame extends Application {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -72,8 +70,8 @@ public class FormulasFrame extends Application {
         primaryStage.setTitle("Formulas");
         primaryStage.setScene(scene);
         primaryStage.setResizable(true);
-        primaryStage.setX(880);
-        primaryStage.setY(10);
+        primaryStage.setX(Main.primaryStage.getX()+700);
+        primaryStage.setY(Main.primaryStage.getY()+10);
         primaryStage.show();
 
 
@@ -114,9 +112,9 @@ public class FormulasFrame extends Application {
             case "Polynom":{
                 description = PolynomDescription.getInstance();
             }break;
-            default:{
+            case "Default":{
                 description = DefaultDescription.getInstance();
-            }
+            }break;
         }
         return description;
     }
