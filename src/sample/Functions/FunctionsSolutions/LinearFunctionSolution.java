@@ -3,6 +3,7 @@ package sample.Functions.FunctionsSolutions;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import sample.Calculator.Answer;
 import sample.Calculator.Data;
 import sample.Calculator.DetCalculator;
 import sample.Functions.LinearFunction;
@@ -26,6 +27,7 @@ public class LinearFunctionSolution implements Solution {
     private double[][]matrix,matrix1,matrix2;
     private double[]additionalMatrix;
     private double det1,det2,det3;
+    private Answer answer;
     private ArrayList<Data>dataList;
     private ArrayList<String> linearFunctionSolution;
     private ArrayList<DetCalculator.Minor>minors1,minors2,minors3;
@@ -33,6 +35,7 @@ public class LinearFunctionSolution implements Solution {
     public LinearFunctionSolution(LinearFunction function) {
         System.out.println("Solution of LF");
         this.function = function;
+        this.answer = function.getAnswer();
         this.matrix = function.getMatrix();
         this.matrix1=function.getMatrix1();
         this.matrix2=function.getMatrix2();
@@ -119,22 +122,29 @@ public class LinearFunctionSolution implements Solution {
                 "\\end{pmatrix}\\\\";
         solutionText+="As\\ main\\ matrix\\ is\\ square\\ and\\ it's\\ of\\ size\\ 2x2,\\ determinate\\ of\\ the\\ matrix\\ is\\\\";
         solutionText+="equal\\ to:\\\\";
-        solutionText+=matrix[0][0]+"\\cdot "+4+"\\ -\\ "+matrix[1][0]+"\\cdot "+matrix[1][0]+"\\ =\\ "+det1+"\\\\";
+        solutionText+="det_{main}="+matrix[0][0]+"\\cdot "+4+"\\ -\\ "+matrix[1][0]+"\\cdot "+matrix[1][0]+"\\ =\\ "+det1+"\\\\";
         solutionText+="2.\\ Matrix\\ for\\ the\\ first\\ variable\\ a\\ is\\ (by\\ replacing\\ the\\ 1^{st}\\ column\\ of\\ the\\\\";
         solutionText+="main\\ matrix\\ by\\ the\\ suplementary\\ column):\\\\";
         solutionText+="\\begin{pmatrix}\n" + additionalMatrix[0]+
                 " & "+matrix[1][0]+"\\\\ \n" +additionalMatrix[1]+
                 " & "+4+"\n" +
                 "\\end{pmatrix}\\\\";
-        solutionText+="As\\ matrix\\ is\\ also\\ square\\ and\\ it's\\ of\\ size\\ 2x2,\\ determinate\\ of\\ the\\ matrix\\ is\\\\";
+        solutionText+="As\\ matrix\\ is\\ also\\ square\\ and\\ it's\\ of\\ size\\ 2\\times2,\\ determinate\\ of\\ the\\ matrix\\ is\\\\";
         solutionText+="equal\\ to:\\\\";
-        solutionText+=additionalMatrix[0]+"\\cdot "+4+"\\ -\\ "+matrix[1][0]+"\\cdot "+additionalMatrix[1]+"\\ =\\ "+det2+"\\\\";
-        solutionText+="2.\\ Matrix\\ for\\ the\\ first\\ variable\\ a\\ is\\ (by\\ replacing\\ the\\ 1^{st}\\ column\\ of\\ the\\\\";
+        solutionText+="det_{a}="+additionalMatrix[0]+"\\cdot "+4+"\\ -\\ "+matrix[1][0]+"\\cdot "+additionalMatrix[1]+"\\ =\\ "+det2+"\\\\";
+        solutionText+="3.\\ Matrix\\ for\\ the\\ first\\ variable\\ a\\ is\\ (by\\ replacing\\ the\\ 1^{st}\\ column\\ of\\ the\\\\";
         solutionText+="main\\ matrix\\ by\\ the\\ suplementary\\ column):\\\\";
-        solutionText+="\\begin{pmatrix}\n" + additionalMatrix[0]+
-                " & "+matrix[0][0]+"\\\\ \n" +additionalMatrix[1]+
-                " & "+4+"\n" +
+        solutionText+="\\begin{pmatrix}\n" + matrix[0][0]+
+                " & "+matrix[1][0]+"\\\\ \n" +additionalMatrix[0]+
+                " & "+additionalMatrix[1]+"\n" +
                 "\\end{pmatrix}\\\\";
+        solutionText+="And\\ it\'s denominator\\ is\\ equal\\ to:\\\\";
+        solutionText+="det_{b}="+matrix[0][0]+"\\cdot "+additionalMatrix[1]+"\\ -\\ "+additionalMatrix[0]+"\\cdot "+matrix[1][0]+"\\ =\\ "+det3+"\\\\";
+        solutionText+="Thus\\ we\\ get\\ following\\ solutions:\\\\";
+        solutionText+="a\\ = \\frac{det_{a}}{det_{main}}=\\frac{"+det2+"}{"+det1+"}="+answer.getA()+"\\\\";
+        solutionText+="b\\ = \\frac{det_{a}}{det_{main}}=\\frac{"+det3+"}{"+det1+"}="+answer.getB()+"\\\\";
+        solutionText+="So\\ the\\ linear\\ approximation\\ of\\ statistical\\ data\\ is\\ an\\ expression:\\\\";
+        solutionText+="y\\ =\\ "+answer.getA()+"\\cdot x\\ +\\ "+answer.getB()+"\\\\";
 
         return solutionText;
     }

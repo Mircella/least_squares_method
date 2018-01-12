@@ -3,6 +3,7 @@ package sample.Functions.FunctionsSolutions;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import sample.Calculator.Answer;
 import sample.Calculator.Data;
 import sample.Functions.InverseRatioFunction;
 
@@ -21,6 +22,7 @@ public class InverseRatioFunctionSolution implements Solution {
 
     private double[][]matrix,matrix1,matrix2;
     private double[]additionalMatrix;
+    private Answer answer;
     private ArrayList<Data> dataList;
     private ArrayList<String> inverseRatioFunctionSolution;
 
@@ -30,6 +32,7 @@ public class InverseRatioFunctionSolution implements Solution {
     public InverseRatioFunctionSolution(InverseRatioFunction function) {
         System.out.println("Solution of IRF");
         this.function = function;
+        this.answer=function.getAnswer();
         this.matrix = function.getMatrix();
         this.matrix1=function.getMatrix1();
         this.matrix2=function.getMatrix2();
@@ -42,7 +45,23 @@ public class InverseRatioFunctionSolution implements Solution {
     }
 
     private String createSolutionText(){
-        solutionText = "Solution\\ of\\ Inverse\\ Ratio\\ Function";
+        StringBuilder sb = new StringBuilder();
+        sb.append("\\hline\n"+"x & y\\\\\n"+"\\hline\n");
+        solutionText="\\begin{array}{l}";
+        solutionText += "Solution:\\\\";
+        solutionText+="The\\ method\\ of\\ least\\ squares\\ calculates\\ the\\ line\\ of\\ the\\ best\\ fit\\ by\\ minimising\\\\";
+        solutionText+="the\\ sum\\ of\\ the\\ squares\\ of\\ the\\ vertical\\ distances\\ of\\ the\\ points\\ to\\ the\\ line.\\\\";
+        solutionText+="Firstly\\ let\\ represent\\ statistical\\ data\\ as\\ a\\ table:\\\\";
+        for(Data d:this.dataList){
+            sb.append(String.valueOf(d.getX())+" & "+String.valueOf(d.getY())+"\\\\\n");
+            sb.append("\\hline\n");
+        }
+        solutionText+="\\begin{tabular}{||r|l||}\n" +
+                sb.toString() +
+                "\\end{tabular}\\\\";
+        solutionText+="According\\ to\\ the\\ formulas\\ of\\ linear\\ approximation,\\ parameters\\ a\\ and\\ b\\ of\\ optimal\\\\";
+        solutionText+="linear\\ regression\\ model\\ y=a\\cdot x+b\\ should\\ be\\ calculated\\ as\\ a\\ solution\\ of\\ the\\\\";
+        solutionText+="equation\\ system:\\\\";
         return solutionText;
     }
 
