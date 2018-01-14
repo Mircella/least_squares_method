@@ -46,11 +46,11 @@ public class LinearFunctionSolution implements Solution {
         }
         this.linearFunctionSolution = new ArrayList<>();
         this.minors1 = new ArrayList<>();
-        this.det1 = DetCalculator.det(matrix,minors1);
+        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(2,RoundingMode.CEILING).doubleValue();
         this.minors2 = new ArrayList<>();
-        this.det2 = DetCalculator.det(matrix1,minors2);
+        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(2,RoundingMode.CEILING).doubleValue();
         this.minors3 = new ArrayList<>();
-        this.det3 = DetCalculator.det(matrix2,minors3);
+        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(2,RoundingMode.CEILING).doubleValue();
 
     }
 
@@ -59,7 +59,7 @@ public class LinearFunctionSolution implements Solution {
         sb.append("\\hline\n"+"x & y\\\\\n"+"\\hline\n");
         solutionText="\\begin{array}{l}";
         solutionText += "Solution:\\\\";
-        solutionText+="The\\ method\\ of\\ least\\ squares\\ calculates\\ the\\ line\\ of\\ the\\ best\\ fit\\ by\\ minimising\\\\";
+        solutionText+="The\\ least\\ squares\\ method\\ calculates\\ the\\ line\\ of\\ the\\ best\\ fit\\ by\\ minimising\\\\";
         solutionText+="the\\ sum\\ of\\ the\\ squares\\ of\\ the\\ vertical\\ distances\\ of\\ the\\ points\\ to\\ the\\ line.\\\\";
         solutionText+="Firstly\\ let\\ represent\\ statistical\\ data\\ as\\ a\\ table:\\\\";
         for(Data d:this.dataList){
@@ -78,10 +78,10 @@ public class LinearFunctionSolution implements Solution {
                 "\\end{matrix}\\right.\\\\";
         solutionText+="To\\ solve\\ this\\ let\\ present\\ calculating\\ of\\ the\\ sums\\ of\\ factual\\ data:\\\\";
         sb = new StringBuilder();
-        sb.append("\\hline\n"+"x & y & {x_{i}}^{2} & x_{i} \\cdot y_{i}\\\\\n"+"\\hline\n");
+        sb.append("\\hline\n"+"x_{i} & y_{i} & {x_{i}}^{2} & x_{i} \\cdot y_{i}\\\\\n"+"\\hline\n");
         for(Data d:this.dataList){
-            double x2 = new BigDecimal(Math.pow(d.getX(),2)).setScale(2, RoundingMode.UP).doubleValue();
-            double xy = new BigDecimal(d.getX()*d.getY()).setScale(2,RoundingMode.UP).doubleValue();
+            double x2 = new BigDecimal(Math.pow(d.getX(),2)).setScale(2, RoundingMode.CEILING).doubleValue();
+            double xy = new BigDecimal(d.getX()*d.getY()).setScale(2,RoundingMode.CEILING).doubleValue();
             sb.append(String.valueOf(d.getX())+
                     " & "+String.valueOf(d.getY())+
                     " & "+String.valueOf(x2)+
@@ -105,7 +105,7 @@ public class LinearFunctionSolution implements Solution {
         solutionText+="\\left\\{\\begin{matrix}"+sb.toString()+"\n" +
                 "\\\\ ";
         sb=new StringBuilder();
-        sb.append(matrix[1][0]+"\\cdot a+"+4+"\\cdot b="+additionalMatrix[1]);
+        sb.append(matrix[1][0]+"\\cdot a+"+matrix[1][1]+"\\cdot b="+additionalMatrix[1]);
         solutionText+=sb.toString();
         solutionText+="\n" +
                 "\\end{matrix}\\right.\\\\";
@@ -113,25 +113,25 @@ public class LinearFunctionSolution implements Solution {
         solutionText+="1.\\ Main\\ matrix\\ of\\ the\\ linear\\ equations\\ system\\ is:\\\\";
         solutionText+="\\begin{pmatrix}\n" + matrix[0][0]+
                 " & "+matrix[1][0]+"\\\\ \n" + matrix[1][0]+
-                " & "+4+"\n" +
+                " & "+matrix[1][1]+"\n" +
                 "\\end{pmatrix}\\\\";
         solutionText+="And\\ the\\ suplementary\\ column\\ is:\\\\";
         solutionText+="\\begin{pmatrix}\n" +additionalMatrix[0]+
                 "\\\\"+additionalMatrix[1]+" \n" +
                 "\n" +
                 "\\end{pmatrix}\\\\";
-        solutionText+="As\\ main\\ matrix\\ is\\ square\\ and\\ it's\\ of\\ size\\ 2x2,\\ determinate\\ of\\ the\\ matrix\\ is\\\\";
+        solutionText+="As\\ main\\ matrix\\ is\\ square\\ and\\ it's\\ of\\ size\\ 2\\times2,\\ determinant\\ of\\ the\\ matrix\\ is\\\\";
         solutionText+="equal\\ to:\\\\";
-        solutionText+="det_{main}="+matrix[0][0]+"\\cdot "+4+"\\ -\\ "+matrix[1][0]+"\\cdot "+matrix[1][0]+"\\ =\\ "+det1+"\\\\";
+        solutionText+="det_{main}="+matrix[0][0]+"\\cdot "+matrix[1][1]+"\\ -\\ "+matrix[1][0]+"\\cdot "+matrix[1][0]+"\\ =\\ "+det1+"\\\\";
         solutionText+="2.\\ Matrix\\ for\\ the\\ first\\ variable\\ a\\ is\\ (by\\ replacing\\ the\\ 1^{st}\\ column\\ of\\ the\\\\";
         solutionText+="main\\ matrix\\ by\\ the\\ suplementary\\ column):\\\\";
         solutionText+="\\begin{pmatrix}\n" + additionalMatrix[0]+
                 " & "+matrix[1][0]+"\\\\ \n" +additionalMatrix[1]+
-                " & "+4+"\n" +
+                " & "+matrix[1][1]+"\n" +
                 "\\end{pmatrix}\\\\";
-        solutionText+="As\\ matrix\\ is\\ also\\ square\\ and\\ it's\\ of\\ size\\ 2\\times2,\\ determinate\\ of\\ the\\ matrix\\ is\\\\";
+        solutionText+="As\\ matrix\\ is\\ also\\ square\\ and\\ it's\\ of\\ size\\ 2\\times2,\\ determinant\\ of\\ the\\ matrix\\ is\\\\";
         solutionText+="equal\\ to:\\\\";
-        solutionText+="det_{a}="+additionalMatrix[0]+"\\cdot "+4+"\\ -\\ "+matrix[1][0]+"\\cdot "+additionalMatrix[1]+"\\ =\\ "+det2+"\\\\";
+        solutionText+="det_{a}="+additionalMatrix[0]+"\\cdot "+matrix[1][1]+"\\ -\\ "+matrix[1][0]+"\\cdot "+additionalMatrix[1]+"\\ =\\ "+det2+"\\\\";
         solutionText+="3.\\ Matrix\\ for\\ the\\ first\\ variable\\ a\\ is\\ (by\\ replacing\\ the\\ 1^{st}\\ column\\ of\\ the\\\\";
         solutionText+="main\\ matrix\\ by\\ the\\ suplementary\\ column):\\\\";
         solutionText+="\\begin{pmatrix}\n" + matrix[0][0]+

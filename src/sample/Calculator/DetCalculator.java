@@ -166,5 +166,22 @@ public class DetCalculator {
                     "element=" + element +
                     "\n}";
         }
+
+        public double[][] getMinor() {
+            return minor;
+        }
+
+        public void setMinor(double[][] minor) {
+            this.minor = minor;
+        }
+
+        public double getElement() {
+            return element;
+        }
+
+        public void setElement(double element) {
+            this.element = element;
+        }
     }
+
 }

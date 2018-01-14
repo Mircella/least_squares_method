@@ -107,7 +107,7 @@ public class SolutionFrame extends Application {
         directoryChooser.setTitle("Choose a directory");
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         scrollPane = (ScrollPane)scene.lookup("#solutionScroll");
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         createSwingContent(swingNode);
         scrollPane.setContent(swingNode);

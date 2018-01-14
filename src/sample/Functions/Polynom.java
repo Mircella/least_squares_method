@@ -12,6 +12,7 @@ import java.math.RoundingMode;
 public class Polynom extends Function {
     private int power;
     private double[]resultMatrix,resultMatrixCopy;
+    private double[][]inverseMatrix;
     private double inverseFactor;
 
     public Polynom(int power) {
@@ -88,7 +89,7 @@ public class Polynom extends Function {
     @Override
     public void calcDet() {
         resultMatrix=new double[power+1];
-        double [][]inverseMatrix = DetCalculator.inverseMatrix(matrix,null);
+        inverseMatrix = DetCalculator.inverseMatrix(matrix,null);
         inverseFactor = DetCalculator.getInverseFactor();
         resultMatrix = DetCalculator.multuply(inverseMatrix,additionalMatrix);
     }
@@ -135,5 +136,13 @@ public class Polynom extends Function {
 
     public void setResultMatrixCopy(double[] resultMatrixCopy) {
         this.resultMatrixCopy = resultMatrixCopy;
+    }
+
+    public double[][] getInverseMatrix() {
+        return inverseMatrix;
+    }
+
+    public void setInverseMatrix(double[][] inverseMatrix) {
+        this.inverseMatrix = inverseMatrix;
     }
 }
