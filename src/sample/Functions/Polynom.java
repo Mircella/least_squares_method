@@ -18,7 +18,7 @@ public class Polynom extends Function {
     public Polynom(int power) {
         super();
         this.power = power;
-        System.out.println("Result of polynom is "+answer.getFunction());
+        //System.out.println("Result of polynom is "+answer.getFunction());
     }
 
     public Polynom(ObservableList<Data> dataList, int power) {
@@ -144,5 +144,10 @@ public class Polynom extends Function {
 
     public void setInverseMatrix(double[][] inverseMatrix) {
         this.inverseMatrix = inverseMatrix;
+    }
+
+    @Override
+    public String getFormula() {
+        return "Formula of polynom";
     }
 }

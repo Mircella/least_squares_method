@@ -15,7 +15,7 @@ public class QuadraticFunction extends Function {
 
     public QuadraticFunction() {
         super();
-        System.out.println("Result of quadratic function is "+answer.getFunction());
+       // System.out.println("Result of quadratic function is "+answer.getFunction());
     }
 
     public QuadraticFunction(ObservableList<Data> dataList) {
@@ -171,5 +171,10 @@ public class QuadraticFunction extends Function {
 
     public void setMatrix3(double[][] matrix3) {
         this.matrix3 = matrix3;
+    }
+    public String getFormula(){
+        String result = "y=\\ "+answer.getA()+"\\cdot x^{2}\\ "+((answer.getB()>0)?"+\\ ":"\\ ")+answer.getB()+"\\cdot x\\ "
+                +((answer.getC()>0)?"+\\ ":"\\ ")+answer.getC()+"\\\\";
+        return result;
     }
 }

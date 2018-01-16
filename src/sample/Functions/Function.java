@@ -217,4 +217,7 @@ public abstract class Function {
     public void setFunctionDescription(Description functionDescription) {
         this.functionDescription = functionDescription;
     }
+
+    public abstract String getFormula();
 }
+

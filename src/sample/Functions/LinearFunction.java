@@ -14,7 +14,7 @@ public class LinearFunction extends Function{
 
     public LinearFunction() {
         super();
-        System.out.println("Result of linear function is "+answer.getFunction());
+        //System.out.println("Result of linear function is "+answer.getFunction());
     }
 
     public LinearFunction(ObservableList<Data> dataList) {
@@ -101,7 +101,6 @@ public class LinearFunction extends Function{
 
     @Override
     public JLabel getFunctionLabel() {
-        //functionLabel = LinearFunctionDescription.getInstance().createLabel();
         return functionLabel;
     }
 
@@ -112,6 +111,11 @@ public class LinearFunction extends Function{
         }catch (NullPointerException e){
             result = 0.0;
         }
+        return result;
+    }
+
+    public String getFormula(){
+        String result = "y="+answer.getA()+"\\cdot x\\ +\\ "+answer.getB()+"\\\\";
         return result;
     }
 }

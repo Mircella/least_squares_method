@@ -99,23 +99,6 @@ public class Main extends Application {
 
         public static void main (String[]args){
         launch(args);
-       /*double[][]matrix2 = {
-                {1,4,5,6,8},
-                {3,6,7,4,3},
-                {1,2,3,9,8},
-                {1,1,-3,-2,4},
-                {9,-4,3,5,6},
-        };
-       ObservableList<Data>list = FXCollections.observableArrayList();
-       list.add(new Data(4,2));
-       list.add(new Data(2,2));
-       list.add(new Data(3,1));
-       list.add(new Data(2,3));
-       list.add(new Data(1,1));
-       Function function = new LogarithmicFunction(list);
-       Analyse analyse = new Analyse(function);
-       System.out.println("Result of analyse "+analyse.toString());*/
-
        }
 
         private void findElements (Scene scene){

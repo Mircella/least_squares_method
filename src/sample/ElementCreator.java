@@ -3,11 +3,13 @@ package sample;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -22,10 +24,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
+import sample.Calculator.Analyse;
 import sample.Calculator.Data;
 import sample.Functions.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,7 +40,7 @@ import java.util.Optional;
 public class ElementCreator {
     private XYChart.Series series,graph,seriesAstana,seriesAstana2,graphAstana,graphAstana2;
     private LineChart lineChart,lineChartAstana;
-    private LineChart[]lineCharts;
+    private ScrollPane analyseScrollPane;
     private Function function,astanaFunction,astanaFunction2;
     private ObservableList<Data>astanaData,astanaData2;
     private ArrayList<Data>dataListAstana,dataListAstana2;
@@ -44,10 +49,11 @@ public class ElementCreator {
     private StackPane chartPane;
     private ComboBox graphComboBox,graphCBAstana,graphCBAstana2;
     private Alert inputAlert;
-    private Button rangeBTN,rangeBTNAstana;
+    private Button rangeBTN,rangeBTNAstana,analyseBTN;
     private Alert powerAlert,rangeDialog;
     private GridPane dialogHBX, dialogHBY;
     private VBox dialogVB;
+    private JLabel label;
     private double[]axis;
     private Optional<ButtonType> result;
     private ButtonType okBTN, cancelBTN;
@@ -57,7 +63,11 @@ public class ElementCreator {
 
     private NumberAxis xAxis,xAxisAstana;
     private NumberAxis yAxis, yAxisAstana;
-
+    private Stage analyseStage;
+    private Scene analyseScene;
+    private Analyse linAnalyse,logAnalyse,expAnalyse,quadAnalyse,invAnalyse,polAnalyse;
+    private StackPane analyseStackPane;
+    private SwingNode swingNode;
     public Function getFunction() {
         return function;
     }
@@ -593,7 +603,7 @@ public class ElementCreator {
         dataTableView.getColumns().addAll(xColumn,yColumn);
     }
 
-    private ObservableList<Data>fillList(){
+    public ObservableList<Data>fillList(){
         ObservableList<Data>list = FXCollections.observableArrayList();
         list.add(new Data(19.90,9.55));//may 2013
         list.add(new Data(19.98,9.34));
@@ -629,7 +639,7 @@ public class ElementCreator {
         return list;
     }
 
-    private ObservableList<Data>fillList2(){
+    public ObservableList<Data>fillList2(){
         ObservableList<Data>list = FXCollections.observableArrayList();
         list.add(new Data(19.90,34.45));//may 2013
         list.add(new Data(19.98,36.48));
@@ -672,10 +682,42 @@ public class ElementCreator {
         graphCBAstana = (ComboBox)astanaBox.lookup("#graphCB");
         graphCBAstana2 = (ComboBox)astanaBox.lookup("#graphCB2");
         rangeBTNAstana = (Button)astanaBox.lookup("#rangeBTN");
+        analyseBTN = (Button)astanaBox.lookup("#analyseBTN");
         rangeBTNAstana.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 showDialog();
+            }
+        });
+        analyseBTN.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event)  {
+                try {
+                    if(analyseStage==null){
+                        analyseStage = new Stage();
+                    }
+                    analyseStage.setTitle("Analyse");
+                    analyseStackPane = FXMLLoader.load(getClass().getResource("filesFXML/analyse.fxml"));
+                    if(analyseScene==null){
+                        analyseScene = new Scene(analyseStackPane,600,400);
+                    }
+                    if(swingNode==null){
+                        swingNode = new SwingNode();
+                    }
+
+                    if(astanaTableView!=null){
+                        ObservableList<Data>list = astanaTableView.getItems();
+                        defineElements(analyseScene,analyseScrollPane,swingNode, list);
+                    }
+                    else {
+                        System.out.println("Null");
+                    }
+                    analyseStage.setScene(analyseScene);
+                    analyseStage.setX(Main.primaryStage.getX()-200);
+                    analyseStage.setY(Main.primaryStage.getY()+100);
+
+                    analyseStage.show();
+                }catch (Exception e){}
             }
         });
 
@@ -767,5 +809,33 @@ public class ElementCreator {
 
         dialogVB.getChildren().addAll(taskLabel,dialogHBX,dialogHBY);
         return dialogVB;
+    }
+    private void defineElements(Scene analyseScene, ScrollPane analyseScrollPane, SwingNode swingNode, ObservableList<Data>list){
+        analyseScrollPane = (ScrollPane) analyseScene.lookup("#analyseSP");
+        analyseScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        analyseScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        createSwingContent(swingNode,list);
+        analyseScrollPane.setContent(swingNode);
+    }
+    private void createSwingContent(SwingNode swingNode,ObservableList<Data>list){
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if(list!=null){
+                    linAnalyse = new Analyse(new LinearFunction(list));
+                    logAnalyse = new Analyse(new LogarithmicFunction(list));
+                    expAnalyse = new Analyse(new ExponentialFunction(list));
+                    quadAnalyse = new Analyse(new QuadraticFunction(list));
+                    //polAnalyse = new Analyse(new Polynom(list,3));
+                    invAnalyse = new Analyse(new InverseRatioFunction(list));
+                    label = new FunctionAnalyse(linAnalyse,logAnalyse,expAnalyse,quadAnalyse,invAnalyse).createSolutionLabel();
+                }else{
+                    label = new JLabel("No analyse");
+                }
+                swingNode.setContent(label);
+            }
+        });
+
     }
 }
