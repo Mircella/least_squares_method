@@ -64,7 +64,7 @@ public class FormulasFrame extends Application {
         scene.getStylesheets().add(0,"styles/style.css");
         primaryStage.setTitle("Formulas");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.setX(Main.primaryStage.getX()+700);
         primaryStage.setY(Main.primaryStage.getY()+10);
         primaryStage.show();
