@@ -67,6 +67,11 @@
                         <Insets bottom="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
+                  <Button fx:id="analyseBTN2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Analyse 2">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <StackPane id="chartPane" fx:id="chartPaneID" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="630.0">

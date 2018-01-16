@@ -211,9 +211,9 @@ public class FunctionAnalyse {
         if(Math.abs(correlation)>=0.99&&Math.abs(correlation)<=1)
         analyseText+="As\\ correlation\\ factor\\in [0.99,1] \\ we\\ may\\ consider\\ it\\ as\\ excellent\\ correlation.\\\\";
         if(Math.abs(correlation)>=0.95&&Math.abs(correlation)<0.99)
-            analyseText+="As\\ correlation\\ factor\\in [0.95,0.99) \\we\\ may\\ consider\\ it\\ as\\ good\\ correlation.\\\\";
+            analyseText+="As\\ correlation\\ factor\\in [0.95,0.99) \\ we\\ may\\ consider\\ it\\ as\\ good\\ correlation.\\\\";
         if(Math.abs(correlation)>=0.90&&Math.abs(correlation)<0.95)
-            analyseText+="As\\ correlation\\ factor\\in [0.90,0.95) \\we\\ may\\ consider\\ it\\ as\\ satisfactory\\ correlation.\\\\";
+            analyseText+="As\\ correlation\\ factor\\in [0.90,0.95) \\ we\\ may\\ consider\\ it\\ as\\ satisfactory\\ correlation.\\\\";
         if(Math.abs(correlation)<0.90)
             analyseText+="As\\ correlation\\ factor\\in [0.95,0.99) \\ we\\ may\\ consider\\ it\\ as\\ bad\\\\" +
                     "correlation.\\\\";

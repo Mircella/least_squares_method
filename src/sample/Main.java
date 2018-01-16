@@ -99,6 +99,14 @@ public class Main extends Application {
 
         public static void main (String[]args){
         launch(args);
+        ObservableList<Data>list=ElementCreator.getInstance().fillList();
+        ObservableList<Data>list2=ElementCreator.getInstance().fillList2();
+        Function function = new QuadraticFunction(list);
+        Function function2 = new ExponentialFunction(list2);
+        Analyse analyse = new Analyse(function);
+        Analyse analyse2 = new Analyse(function2);
+        System.out.println("First analyse:"+analyse.toString());
+        System.out.println("Second analyse:"+analyse2.toString());
        }
 
         private void findElements (Scene scene){

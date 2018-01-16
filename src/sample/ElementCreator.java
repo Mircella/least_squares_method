@@ -40,7 +40,7 @@ import java.util.Optional;
 public class ElementCreator {
     private XYChart.Series series,graph,seriesAstana,seriesAstana2,graphAstana,graphAstana2;
     private LineChart lineChart,lineChartAstana;
-    private ScrollPane analyseScrollPane;
+    private ScrollPane analyseScrollPane,analyseScrollPane2;
     private Function function,astanaFunction,astanaFunction2;
     private ObservableList<Data>astanaData,astanaData2;
     private ArrayList<Data>dataListAstana,dataListAstana2;
@@ -49,11 +49,11 @@ public class ElementCreator {
     private StackPane chartPane;
     private ComboBox graphComboBox,graphCBAstana,graphCBAstana2;
     private Alert inputAlert;
-    private Button rangeBTN,rangeBTNAstana,analyseBTN;
+    private Button rangeBTN,rangeBTNAstana,analyseBTN,analyseBTN2;
     private Alert powerAlert,rangeDialog;
     private GridPane dialogHBX, dialogHBY;
     private VBox dialogVB;
-    private JLabel label;
+    private JLabel label,label2;
     private double[]axis;
     private Optional<ButtonType> result;
     private ButtonType okBTN, cancelBTN;
@@ -63,11 +63,12 @@ public class ElementCreator {
 
     private NumberAxis xAxis,xAxisAstana;
     private NumberAxis yAxis, yAxisAstana;
-    private Stage analyseStage;
-    private Scene analyseScene;
-    private Analyse linAnalyse,logAnalyse,expAnalyse,quadAnalyse,invAnalyse,polAnalyse;
-    private StackPane analyseStackPane;
-    private SwingNode swingNode;
+    private Stage analyseStage,analyseStage2;
+    private Scene analyseScene,analyseScene2;
+    private Analyse linAnalyse,logAnalyse,expAnalyse,quadAnalyse,invAnalyse;
+    private Analyse linAnalyse2,logAnalyse2,expAnalyse2,quadAnalyse2,invAnalyse2;
+    private StackPane analyseStackPane,analyseStackPane2;
+    private SwingNode swingNode,swingNode2;
     public Function getFunction() {
         return function;
     }
@@ -683,6 +684,7 @@ public class ElementCreator {
         graphCBAstana2 = (ComboBox)astanaBox.lookup("#graphCB2");
         rangeBTNAstana = (Button)astanaBox.lookup("#rangeBTN");
         analyseBTN = (Button)astanaBox.lookup("#analyseBTN");
+        analyseBTN2 = (Button)astanaBox.lookup("#analyseBTN2");
         rangeBTNAstana.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -717,6 +719,37 @@ public class ElementCreator {
                     analyseStage.setY(Main.primaryStage.getY()+100);
 
                     analyseStage.show();
+                }catch (Exception e){}
+            }
+        });
+        analyseBTN2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event)  {
+                try {
+                    if(analyseStage2==null){
+                        analyseStage2 = new Stage();
+                    }
+                    analyseStage2.setTitle("Analyse 2");
+                    analyseStackPane2 = FXMLLoader.load(getClass().getResource("filesFXML/analyse2.fxml"));
+                    if(analyseScene2==null){
+                        analyseScene2 = new Scene(analyseStackPane2,600,400);
+                    }
+                    if(swingNode2==null){
+                        swingNode2 = new SwingNode();
+                    }
+
+                    if(astanaTableView2!=null){
+                        ObservableList<Data>list2 = astanaTableView2.getItems();
+                        defineElements(analyseScene2,analyseScrollPane2,swingNode2, list2);
+                    }
+                    else {
+                        System.out.println("Null");
+                    }
+                    analyseStage2.setScene(analyseScene2);
+                    analyseStage2.setX(Main.primaryStage.getX()-200);
+                    analyseStage2.setY(Main.primaryStage.getY()+200);
+
+                    analyseStage2.show();
                 }catch (Exception e){}
             }
         });
@@ -827,7 +860,6 @@ public class ElementCreator {
                     logAnalyse = new Analyse(new LogarithmicFunction(list));
                     expAnalyse = new Analyse(new ExponentialFunction(list));
                     quadAnalyse = new Analyse(new QuadraticFunction(list));
-                    //polAnalyse = new Analyse(new Polynom(list,3));
                     invAnalyse = new Analyse(new InverseRatioFunction(list));
                     label = new FunctionAnalyse(linAnalyse,logAnalyse,expAnalyse,quadAnalyse,invAnalyse).createSolutionLabel();
                 }else{
