@@ -8,6 +8,7 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 
 public class Analyse {
+    private Function function;
     private double mean=0;
     private double determination=0;
     private double approximation=0;
@@ -18,6 +19,7 @@ public class Analyse {
 
     public Analyse(Function function) {
         System.out.println("Analyse of "+function.getClass().getSimpleName());
+        this.function = function;
         this.dataList = function.getDataList();
         this.valuesFunc = calcValuesFunc(dataList,function);
         this.mean = calcMean(dataList);
@@ -159,6 +161,22 @@ public class Analyse {
 
     public void setApproximation(double approximation) {
         this.approximation = approximation;
+    }
+
+    public Function getFunction() {
+        return function;
+    }
+
+    public void setFunction(Function function) {
+        this.function = function;
+    }
+
+    public double getDeviation() {
+        return deviation;
+    }
+
+    public void setDeviation(double deviation) {
+        this.deviation = deviation;
     }
 
     @Override

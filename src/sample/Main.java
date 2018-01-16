@@ -42,7 +42,7 @@ public class Main extends Application {
     private StackPane chartPane;
     private TextField numbersTF, powerTF;
     private VBox tableBox;
-    private TableView<Data> dataTableView;
+    private static TableView<Data> dataTableView;
     private Alert powerAlert,numberAlert,rangeDialog;
     private TextField fromTFX, toTFX, fromTFY, toTFY;
     private Label taskLabelX, taskLabelY, taskLabel;
@@ -64,6 +64,14 @@ public class Main extends Application {
 
     public static void setFunction(Function function) {
         Main.function = function;
+    }
+
+    public static TableView<Data> getDataTableView() {
+        return Main.dataTableView;
+    }
+
+    public static void setDataTableView(TableView<Data> dataTableView) {
+        Main.dataTableView = dataTableView;
     }
 
     @Override
@@ -270,8 +278,6 @@ public class Main extends Application {
                     lineChart = creator.createLineChart(functionName, function, dataTableView,axis);
                     dataTableView.setItems(function.getDataList());
                     chartPane.getChildren().add(lineChart);
-                    //prepareStage(primaryStage, scene);
-                    //primaryStage.show();
                 }
 
             });

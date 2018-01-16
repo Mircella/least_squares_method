@@ -33,11 +33,6 @@ public class FormulasFrame extends Application {
 
     public FormulasFrame(){}
     public FormulasFrame(String functionName){
-        if(functionName==null){
-            this.functionName = "Default";
-        }else {
-            this.functionName = functionName;
-        }
 
     }
 
@@ -93,29 +88,7 @@ public class FormulasFrame extends Application {
     }
 
     private Description defineDescription(){
-        switch (functionName){
-            case "Linear function":{
-                description = LinearFunctionDescription.getInstance();
-            }break;
-            case "Quadratic function":{
-                description = QuadraticFunctionDescription.getInstance();
-            }break;
-            case "Logarithmic function":{
-                description = LogarithmicFunctionDescription.getInstance();
-            }break;
-            case "Exponential function":{
-                description = ExponentialFunctionDescription.getInstance();
-            }break;
-            case "Inverse ratio function":{
-                description = InverseRatioFunctionDescription.getInstance();
-            }break;
-            case "Polynom":{
-                description = PolynomDescription.getInstance();
-            }break;
-            case "Default":{
-                description = DefaultDescription.getInstance();
-            }break;
-        }
+        description = DefaultDescription.getInstance();
         return description;
     }
 }

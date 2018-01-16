@@ -142,7 +142,7 @@ public class LinearFunctionSolution implements Solution {
         solutionText+="det_{b}="+matrix[0][0]+"\\cdot "+additionalMatrix[1]+"\\ -\\ "+additionalMatrix[0]+"\\cdot "+matrix[1][0]+"\\ =\\ "+det3+"\\\\";
         solutionText+="Thus\\ we\\ get\\ following\\ solutions:\\\\";
         solutionText+="a\\ = \\frac{det_{a}}{det_{main}}=\\frac{"+det2+"}{"+det1+"}="+answer.getA()+"\\\\";
-        solutionText+="b\\ = \\frac{det_{a}}{det_{main}}=\\frac{"+det3+"}{"+det1+"}="+answer.getB()+"\\\\";
+        solutionText+="b\\ = \\frac{det_{b}}{det_{main}}=\\frac{"+det3+"}{"+det1+"}="+answer.getB()+"\\\\";
         solutionText+="So\\ the\\ linear\\ approximation\\ of\\ statistical\\ data\\ is\\ an\\ expression:\\\\";
         solutionText+="y\\ =\\ "+answer.getA()+"\\cdot x\\ +\\ "+answer.getB()+"\\\\";
 

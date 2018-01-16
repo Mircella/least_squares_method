@@ -11,7 +11,6 @@ import javax.swing.*;
 
 
 public abstract class Function {
-    protected Analyse analyse;
     protected Answer answer;
     protected Data data;
     protected ObservableList<Data> dataList;
@@ -217,13 +216,5 @@ public abstract class Function {
 
     public void setFunctionDescription(Description functionDescription) {
         this.functionDescription = functionDescription;
-    }
-
-    public Analyse getAnalyse() {
-        return analyse;
-    }
-
-    public void setAnalyse(Analyse analyse) {
-        this.analyse = analyse;
     }
 }

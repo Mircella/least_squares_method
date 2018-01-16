@@ -79,7 +79,7 @@ public class LogarithmicFunctionSolution implements Solution {
 
         solutionText+="The\\ condition\\ for\\ R^{2}\\ to\\ be\\ a\\ minimum\\ in\\ case\\ of\\ logarithmic\\ function\\ is\\ that\\\\";
         solutionText+="\\frac{\\partial \\left ( R ^{2}\\right )}{\\partial a}=0\\ \\ \\frac{\\partial \\left ( R^{2} \\right )}{\\partial b}=0\\\\";
-        solutionText+="For\\ logarithmic\\ fit:\\\\";
+        solutionText+="For\\ logarithmic\\ function\\ fit:\\\\";
         solutionText+="f=a\\cdot \\ln x+b\\\\";
         solutionText+="so\\\\";
         solutionText+="\\frac{\\partial \\left ( R ^{2}\\right )}{\\partial a}=-2\\sum_{i=1}^{n}(y_{i}-(a\\cdot \\ln x_{i}+b))\\cdot \\ln x_{i}=0\\\\";

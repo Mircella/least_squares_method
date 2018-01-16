@@ -33,16 +33,18 @@ import java.util.IllegalFormatException;
 import java.util.Optional;
 
 public class ElementCreator {
-    private XYChart.Series series,graph;
+    private XYChart.Series series,graph,seriesAstana,seriesAstana2,graphAstana,graphAstana2;
     private LineChart lineChart,lineChartAstana;
-    private Function function,astanaFunction;
+    private LineChart[]lineCharts;
+    private Function function,astanaFunction,astanaFunction2;
     private ObservableList<Data>astanaData,astanaData2;
+    private ArrayList<Data>dataListAstana,dataListAstana2;
     private TableView<Data>astanaTableView,astanaTableView2;
     private VBox vBox,vBox2;
     private StackPane chartPane;
-    private ComboBox graphComboBox;
+    private ComboBox graphComboBox,graphCBAstana,graphCBAstana2;
     private Alert inputAlert;
-    private Button rangeBTN;
+    private Button rangeBTN,rangeBTNAstana;
     private Alert powerAlert,rangeDialog;
     private GridPane dialogHBX, dialogHBY;
     private VBox dialogVB;
@@ -51,10 +53,10 @@ public class ElementCreator {
     private ButtonType okBTN, cancelBTN;
     private TextField fromTFX, toTFX, fromTFY, toTFY;
     private Label taskLabelX, taskLabelY, taskLabel;
-    private String functionName;
+    private String functionName,functionName2;
 
-    private NumberAxis xAxis;
-    private NumberAxis yAxis;
+    private NumberAxis xAxis,xAxisAstana;
+    private NumberAxis yAxis, yAxisAstana;
 
     public Function getFunction() {
         return function;
@@ -81,55 +83,136 @@ public class ElementCreator {
                     loader.setLocation(Main.class.getResource("filesFXML/astana.fxml"));
                     HBox astanaBox = loader.load();
                     findElements(astanaBox);
-                    ObservableList<Data>list = fillList();
-                    astanaTableView = createTable(astanaTableView,vBox,list);
-                    astanaTableView2 = createTable(astanaTableView2,vBox2,list);
-                    lineChartAstana = createLineChart("Default",astanaFunction,astanaTableView,null);
-                    chartPane.getChildren().add(lineChartAstana);
+                    astanaData= fillList();
+                    astanaFunction = new QuadraticFunction(astanaData);
+                    astanaData2 = fillList2();
+                    astanaFunction2 = new ExponentialFunction(astanaData2);
+                    astanaTableView = createTable(astanaTableView,vBox,astanaData);
+                    astanaTableView2 = createTable(astanaTableView2,vBox2,astanaData2);
                     astanaTableView.setPrefSize(260,195);
                     astanaTableView2.setPrefSize(260,195);
+                    dataListAstana = new ArrayList<>();
+                    dataListAstana.addAll(astanaData);
+                    dataListAstana2 = new ArrayList<>();
+                    dataListAstana2.addAll(astanaData2);
+                    axis =new double[]{15.27,21.35,5.54,57.57};
+                    lineChartAstana = createGraphsAstana(dataListAstana,dataListAstana2,astanaFunction,astanaFunction2,axis);
+                    chartPane.getChildren().add(lineChartAstana);
                     astanaTab.setContent(astanaBox);
-                    createComboBox(graphComboBox);
-                    graphComboBox.setOnAction(new EventHandler<ActionEvent>() {
+                    createComboBox(graphCBAstana);
+                    createComboBox(graphCBAstana2);
+                    graphCBAstana.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
                             astanaData = astanaTableView.getItems();
-                            functionName = (String)graphComboBox.getValue();
+                            functionName = (String)graphCBAstana.getValue();
                             switch (functionName){
                                 case "Linear function":{
                                     if(astanaData!=null){
                                         astanaFunction = new LinearFunction(astanaData);
+                                        dataListAstana = new ArrayList<>();
+                                        dataListAstana.addAll(astanaData);
                                     }else {
                                         astanaFunction = new LinearFunction();
                                     }
                                 }break;
                                 case "Inverse ratio function":{
-                                    if(astanaData!=null)astanaFunction = new InverseRatioFunction(astanaData);
+                                    if(astanaData!=null){astanaFunction = new InverseRatioFunction(astanaData);
+                                    dataListAstana = new ArrayList<>();
+                                    dataListAstana.addAll(astanaData);}
                                     else astanaFunction = new InverseRatioFunction();
                                 }break;
                                 case "Quadratic function":{
-                                    if(astanaData!=null)astanaFunction = new QuadraticFunction(astanaData);
+                                    if(astanaData!=null){astanaFunction = new QuadraticFunction(astanaData);
+                                        dataListAstana = new ArrayList<>();
+                                        dataListAstana.addAll(astanaData);}
                                     else astanaFunction = new QuadraticFunction();
                                 }break;
                                 case "Logarithmic function":{
-                                    if(astanaData!=null)astanaFunction = new LogarithmicFunction(astanaData);
+                                    if(astanaData!=null){astanaFunction = new LogarithmicFunction(astanaData);
+                                        dataListAstana = new ArrayList<>();
+                                        dataListAstana.addAll(astanaData);}
                                     else astanaFunction = new LogarithmicFunction();
                                 }break;
                                 case "Exponential function":{
-                                    if(astanaData!=null)astanaFunction = new ExponentialFunction(astanaData);
+                                    if(astanaData!=null){astanaFunction = new ExponentialFunction(astanaData);
+                                        dataListAstana = new ArrayList<>();
+                                        dataListAstana.addAll(astanaData);}
                                     else astanaFunction = new ExponentialFunction();
                                 }break;
                                 case "Polynom":{
-                                    if(list!=null)function = new Polynom(list,3);
-                                    else function = new Polynom(3);
+                                    if(astanaData!=null){astanaFunction = new Polynom(astanaData,3);
+                                        dataListAstana = new ArrayList<>();
+                                        dataListAstana.addAll(astanaData);}
+                                    else astanaFunction = new Polynom(3);
                                 }break;
                                 default:{
                                     astanaFunction=new LinearFunction(astanaData);
+                                    dataListAstana = new ArrayList<>();
+                                    dataListAstana.addAll(astanaData);
                                 }
                             }
 
                             chartPane.getChildren().remove(lineChartAstana);
-                            lineChartAstana = creator.createLineChart(functionName,astanaFunction,astanaTableView,null);
+                            lineChartAstana = createGraphsAstana(dataListAstana,dataListAstana2,astanaFunction,astanaFunction2,axis);
+                            astanaTableView.setItems(astanaFunction.getDataList());
+                            chartPane.getChildren().add(lineChartAstana);
+                        }
+                    });
+                    graphCBAstana2.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            astanaData2 = astanaTableView2.getItems();
+                            functionName2 = (String)graphCBAstana2.getValue();
+                            switch (functionName2){
+                                case "Linear function":{
+                                    if(astanaData2!=null){
+                                        astanaFunction2 = new LinearFunction(astanaData2);
+                                        dataListAstana2 = new ArrayList<>();
+                                        dataListAstana2.addAll(astanaData2);
+                                    }else {
+                                        astanaFunction2 = new LinearFunction();
+                                    }
+                                }break;
+                                case "Inverse ratio function":{
+                                    if(astanaData2!=null){astanaFunction2 = new InverseRatioFunction(astanaData2);
+                                        dataListAstana2 = new ArrayList<>();
+                                        dataListAstana2.addAll(astanaData2);}
+                                    else astanaFunction2 = new InverseRatioFunction();
+                                }break;
+                                case "Quadratic function":{
+                                    if(astanaData2!=null){astanaFunction2 = new QuadraticFunction(astanaData2);
+                                        dataListAstana2 = new ArrayList<>();
+                                        dataListAstana2.addAll(astanaData2);}
+                                    else astanaFunction2 = new QuadraticFunction();
+                                }break;
+                                case "Logarithmic function":{
+                                    if(astanaData2!=null){astanaFunction2 = new LogarithmicFunction(astanaData2);
+                                        dataListAstana2 = new ArrayList<>();
+                                        dataListAstana2.addAll(astanaData2);}
+                                    else astanaFunction2 = new LogarithmicFunction();
+                                }break;
+                                case "Exponential function":{
+                                    if(astanaData2!=null){astanaFunction2 = new ExponentialFunction(astanaData2);
+                                        dataListAstana = new ArrayList<>();
+                                        dataListAstana.addAll(astanaData);}
+                                    else astanaFunction = new ExponentialFunction();
+                                }break;
+                                case "Polynom":{
+                                    if(astanaData2!=null){astanaFunction2 = new Polynom(astanaData2,3);
+                                        dataListAstana2 = new ArrayList<>();
+                                        dataListAstana2.addAll(astanaData2);}
+                                    else astanaFunction2 = new Polynom(3);
+                                }break;
+                                default:{
+                                    astanaFunction2=new LinearFunction(astanaData2);
+                                    dataListAstana2 = new ArrayList<>();
+                                    dataListAstana2.addAll(astanaData2);
+                                }
+                            }
+
+                            chartPane.getChildren().remove(lineChartAstana);
+                            lineChartAstana = createGraphsAstana(dataListAstana,dataListAstana2,astanaFunction,astanaFunction2,axis);
                             astanaTableView.setItems(astanaFunction.getDataList());
                             chartPane.getChildren().add(lineChartAstana);
                         }
@@ -173,6 +256,7 @@ public class ElementCreator {
 
         return lineChart;
     }
+
 
     private XYChart.Series addSeries(ArrayList<Data>dataList){
         series = new XYChart.Series();
@@ -243,6 +327,29 @@ public class ElementCreator {
             xAxis = new NumberAxis(axis[0],axis[1],(axis[1]-axis[0])/list.size());
             yAxis = new NumberAxis(axis[2],axis[3],(axis[3]-axis[2])/list.size());
         }
+    }
+
+    private void createAxis2(double[]axis){
+        xAxisAstana = new NumberAxis(axis[0],axis[1],(axis[1]-axis[0])/30);
+        yAxisAstana = new NumberAxis(axis[2],axis[3],(axis[3]-axis[2])/30);
+    }
+    private LineChart createGraphsAstana(ArrayList<Data>dataListAstana,
+                                         ArrayList<Data>dataListAstana2,
+                                         Function astanaFunction,
+                                         Function astanaFunction2,
+                                         double[]axis){
+        createAxis2(axis);
+        lineChartAstana = new LineChart(xAxisAstana,yAxisAstana);
+        graphAstana = addGraph(astanaFunction,dataListAstana,xAxisAstana,yAxisAstana);
+        graphAstana.setName("Approximation of supply");
+        graphAstana2 = addGraph(astanaFunction2,dataListAstana2,xAxisAstana,yAxisAstana);
+        graphAstana.setName("Approximation of sales");
+        seriesAstana = addSeries(dataListAstana);
+        seriesAstana.setName("Statistic of the sales(demand)");
+        seriesAstana2 = addSeries(dataListAstana2);
+        seriesAstana2.setName("Statistic of the supply");
+        lineChartAstana.getData().addAll(graphAstana,graphAstana2,seriesAstana,seriesAstana2);
+        return lineChartAstana;
     }
 
     public TableView<Data> createTable(TableView<Data> dataTableView, VBox box, ObservableList<Data>dataList){
@@ -562,9 +669,10 @@ public class ElementCreator {
         vBox = (VBox) astanaBox.lookup("#tableVB");
         vBox2 = (VBox) astanaBox.lookup("#tableVB2");
         chartPane = (StackPane)astanaBox.lookup("#chartPane");
-        graphComboBox = (ComboBox)astanaBox.lookup("#graphCB");
-        rangeBTN = (Button)astanaBox.lookup("#rangeBTN");
-        rangeBTN.setOnAction(new EventHandler<ActionEvent>() {
+        graphCBAstana = (ComboBox)astanaBox.lookup("#graphCB");
+        graphCBAstana2 = (ComboBox)astanaBox.lookup("#graphCB2");
+        rangeBTNAstana = (Button)astanaBox.lookup("#rangeBTN");
+        rangeBTNAstana.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 showDialog();
@@ -609,7 +717,7 @@ public class ElementCreator {
                 axis[2]=y1;
                 axis[3]=y2;
                 chartPane.getChildren().remove(lineChartAstana);
-                lineChartAstana = creator.createLineChart(functionName,astanaFunction,astanaTableView,axis);
+                lineChartAstana = createGraphsAstana(dataListAstana,dataListAstana2,astanaFunction,astanaFunction2,axis);
                 chartPane.getChildren().add(lineChartAstana);
             }catch (Exception e){
                 powerAlert = new Alert(Alert.AlertType.ERROR);

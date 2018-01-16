@@ -79,7 +79,6 @@ public class SolutionFrame extends Application {
                 swingNode.setContent(label);
             }
         });
-
     }
 
     private Solution defineSolution(Function function){

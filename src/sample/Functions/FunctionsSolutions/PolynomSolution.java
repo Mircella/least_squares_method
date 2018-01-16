@@ -86,6 +86,7 @@ public class PolynomSolution implements Solution{
     }
 
     private String createSolutionText(){
+        if(power<=3){
         String ending="^{th}";
         if(power==1){
             ending="^{st}";
@@ -304,6 +305,26 @@ public class PolynomSolution implements Solution{
 
         }
         solutionText+=sb.toString()+"\\\\";
+        }else{
+            solutionText="\\begin{array}{l}";
+            solutionText+="Result\\ polynom\\ will\\ have\\ the\\ following\\ form\\\\";
+            StringBuilder sb= new StringBuilder("y = ");
+            String sign="+";
+            for(int k=0;k<multiplyMatrix.length;k++){
+                if(k==0){
+                    sb.append(String.valueOf(multiplyMatrix[k]));
+                }
+                if(k!=0){
+                    sb.append("\\cdot x^{"+k+"}");
+                }
+                if(k!=(multiplyMatrix.length-1)){
+                    sign = (multiplyMatrix[k+1]>0)?"\\ +\\ ":"\\ -\\ ";
+                    sb.append(sign+Math.abs(multiplyMatrix[k+1]));
+                }
+
+            }
+            solutionText+=sb.toString()+"\\\\";
+        }
         return solutionText;
     }
 
@@ -317,8 +338,13 @@ public class PolynomSolution implements Solution{
             formula = new TeXFormula(true, solutionText);}
         icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15);
         icon.setInsets(new Insets(0, 0, 0, 0));
+        if(power<=3){
         icon.setIconHeight(100,TeXConstants.ALIGN_CENTER);
-        icon.setIconWidth(380,TeXConstants.ALIGN_LEFT);
+        icon.setIconWidth(600,TeXConstants.ALIGN_LEFT);
+        }else{
+            icon.setIconHeight(50,TeXConstants.ALIGN_CENTER);
+            icon.setIconWidth(600,TeXConstants.ALIGN_LEFT);
+        }
         return icon;
     }
 
