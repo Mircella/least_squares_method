@@ -1,5 +1,4 @@
 package main.java;
-
 import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;

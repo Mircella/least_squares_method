@@ -16,7 +16,7 @@ public class Analyse {
     private double fisher=0;
     private double studentA=0;
     private double studentB=0;
-    private  double studentC=0;
+    private double studentC=0;
     private double studentR=0;
     private double aMistake=0;
     private double bMistake=0;
@@ -24,6 +24,7 @@ public class Analyse {
     private double cMistake=0;
     private double[] valuesFunc,valuesMean,valuesDeviation,xMean;
     private ObservableList<Data>dataList;
+
 
     public Analyse(Function function) {
         System.out.println("Analyse of "+function.getClass().getSimpleName());

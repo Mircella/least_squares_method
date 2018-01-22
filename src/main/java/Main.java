@@ -21,7 +21,6 @@ import main.java.Calculator.Data;
 import main.java.Functions.*;
 import java.util.Optional;
 
-
 public class Main extends Application {
     private ElementCreator creator;
 

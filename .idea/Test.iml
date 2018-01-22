@@ -9,9 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jlatexmath-0.9.6" level="project" />
-    <orderEntry type="library" name="Basic" level="project" />
-    <orderEntry type="library" name="jcommon-1.0.23" level="project" />
     <orderEntry type="library" name="Maven: com.local:jlatexmath-0.9.6-library-local:0.9.6" level="project" />
     <orderEntry type="library" name="Maven: com.local:jlatexmath-0.9.6-sources-library-local:0.9.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi:3.17" level="project" />
