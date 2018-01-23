@@ -1,10 +1,10 @@
-package main.java.Functions;
+package Functions;
 
 import javafx.collections.ObservableList;
-import main.java.Calculator.Answer;
-import main.java.Calculator.Data;
-import main.java.Functions.FunctionDescriptions.Description;
-import main.java.Calculator.DetCalculator;
+import Calculator.Answer;
+import Calculator.Data;
+import Functions.FunctionDescriptions.Description;
+import Calculator.DetCalculator;
 
 import javax.swing.*;
 

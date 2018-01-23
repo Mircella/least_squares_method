@@ -1,12 +1,12 @@
-package main.java.Functions.FunctionsSolutions;
+package Functions.FunctionsSolutions;
 
-import main.java.Calculator.Answer;
-import main.java.Calculator.Data;
-import main.java.Functions.Polynom;
+import Calculator.Answer;
+import Calculator.Data;
+import Functions.Polynom;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
-import main.java.Calculator.DetCalculator;
+import Calculator.DetCalculator;
 
 import javax.swing.*;
 import java.awt.*;

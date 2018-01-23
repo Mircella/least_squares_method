@@ -1,4 +1,4 @@
-package main.java;
+
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
@@ -10,8 +10,8 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.java.Functions.FunctionDescriptions.DefaultDescription;
-import main.java.Functions.FunctionDescriptions.Description;
+import Functions.FunctionDescriptions.DefaultDescription;
+import Functions.FunctionDescriptions.Description;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 
@@ -46,7 +46,7 @@ public class FormulasFrame extends Application {
     public void start(Stage primaryStage) throws Exception {
         description = defineDescription();
         FXMLLoader loader = new FXMLLoader();
-        final VBox load = (VBox) loader.load(getClass().getResource("filesFXML/formulas.fxml"));
+        final VBox load = (VBox) loader.load(getClass().getResource("formulas.fxml"));
         VBox vBox = load;
         if(scene==null){
         scene = new Scene(vBox,400,180);
@@ -60,7 +60,7 @@ public class FormulasFrame extends Application {
         createSwingContent(swingNode);
         scrollPane.setContent(swingNode);
 
-        scene.getStylesheets().add(0, "main/res/style.css");
+        scene.getStylesheets().add(0, "style.css");
         primaryStage.setTitle("Formulas");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

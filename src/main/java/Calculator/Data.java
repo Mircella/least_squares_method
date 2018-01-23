@@ -1,4 +1,4 @@
-package main.java.Calculator;
+package Calculator;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

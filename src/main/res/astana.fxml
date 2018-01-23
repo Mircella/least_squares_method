@@ -13,9 +13,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="270.0">
+      <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="270.0">
          <children>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="270.0">
                <children>
@@ -53,9 +53,9 @@
             </HBox>
          </children>
       </VBox>
-      <VBox fx:id="vBoxChartID" maxHeight="1.7976931348623157E308" prefHeight="470.0" prefWidth="630.0">
+      <VBox fx:id="vBoxChartID" prefHeight="470.0" prefWidth="640.0">
          <children>
-            <HBox prefHeight="40.0">
+            <HBox prefHeight="40.0" prefWidth="640.0">
                <children>
                   <Button fx:id="rangeBTN" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Range...">
                      <HBox.margin>
@@ -74,7 +74,7 @@
                   </Button>
                </children>
             </HBox>
-            <StackPane id="chartPane" fx:id="chartPaneID" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="630.0">
+            <StackPane id="chartPane" fx:id="chartPaneID" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="640.0">
                <children>
                   </children></StackPane>
          </children>

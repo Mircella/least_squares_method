@@ -1,4 +1,4 @@
-package main.java.Calculator;
+package Calculator;
 
 public class Answer {
     private String function;

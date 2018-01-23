@@ -1,7 +1,6 @@
-package main.java;
-
 import javafx.application.Application;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,40 +13,56 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.java.Calculator.Data;
-import main.java.Functions.*;
+import Calculator.Data;
+import Functions.*;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.odftoolkit.simple.TextDocument;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Optional;
 
 public class Main extends Application {
     private ElementCreator creator;
 
-    private LineChart lineChart;
-    private static Function function;
-    private static ComboBox graphComboBox;
-    public static Stage primaryStage;
-    private Scene scene;
-    private HBox hBox;
     private GridPane dialogHBX, dialogHBY;
     private VBox dialogVB;
-    private TabPane tabPane;
-    private Button exampleBTN,rangeBTN;
-    private StackPane chartPane;
-    private TextField numbersTF, powerTF;
-    private VBox tableBox;
-    private static TableView<Data> dataTableView;
-    private Alert powerAlert,numberAlert,rangeDialog;
     private TextField fromTFX, toTFX, fromTFY, toTFY;
     private Label taskLabelX, taskLabelY, taskLabel;
     private Optional<ButtonType> result;
+    private Alert powerAlert,numberAlert,rangeDialog;
     private ButtonType okBTN, cancelBTN;
 
-    private int pointNumber;
-    private Integer power;
+    private Button exampleBTN,rangeBTN;
+    private TabPane tabPane;
+
+    private VBox tableBox;
+    private static TableView<Data> dataTableView;
+
+    private StackPane chartPane;
+    private LineChart lineChart;
+    private static Function function;
+    private static ComboBox graphComboBox;
     private String functionName;
     private double[]axis;
+
+    private MenuBar menuBar;
+    private Menu mainMenu;
+    private MenuItem openMenuItem1, openMenuItem2, closeMenuItem;
+
+    public static Stage primaryStage;
+    private Scene scene;
+    private HBox hBox;
+    private TextField numbersTF, powerTF;
+    private int pointNumber;
+    private Integer power;
 
     public static ComboBox getGraphComboBox() {
         return graphComboBox;
@@ -73,10 +88,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Main.primaryStage = primaryStage;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("filesFXML/sample.fxml"));
-        Pane root = loader.load();
-        scene = new Scene(root, 880, 500);
-        findElements(scene);
+        loader.setLocation(Main.class.getResource("sample.fxml"));
+        Pane root = (Pane)(loader.load());
+        scene = new Scene(root, 910, 530);
+        findElements(scene,primaryStage);
         creator = ElementCreator.getInstance();
         creator.createComboBox(graphComboBox);
         creator.defineExampleButton(tabPane, exampleBTN);
@@ -86,7 +101,7 @@ public class Main extends Application {
         lineChart = creator.createLineChart("Default", function, dataTableView,null);
         chartPane.getChildren().add(lineChart);
         defineListeners(primaryStage,list);
-        scene.getStylesheets().add(0, "main/res/style.css");
+        scene.getStylesheets().add(0, "style.css");
         prepareStage(primaryStage, scene);
         primaryStage.show();
         }
@@ -102,9 +117,10 @@ public class Main extends Application {
         Analyse analyse2 = new Analyse(function2);
         System.out.println("First analyse:"+analyse.toString());
         System.out.println("Second analyse:"+analyse2.toString());*/
+
        }
 
-        private void findElements (Scene scene){
+        private void findElements (Scene scene,Stage stage){
             chartPane = (StackPane) scene.lookup("#chartPane");
             graphComboBox = (ComboBox) scene.lookup("#graphCB");
             tableBox = (VBox) scene.lookup("#tableVB");
@@ -121,12 +137,20 @@ public class Main extends Application {
                 }
             });
 
+            menuBar = (MenuBar)scene.lookup("#menuBar");
+            mainMenu = menuBar.getMenus().get(0);
+            openMenuItem1 = mainMenu.getItems().get(0);
+            openMenuItem2 = mainMenu.getItems().get(1);
+            closeMenuItem = mainMenu.getItems().get(2);
+            defineMenuItems(stage,openMenuItem1,openMenuItem2,closeMenuItem);
+
+
         }
 
         private void prepareStage (Stage primaryStage, Scene scene){
             primaryStage.setTitle("Least Square Method");
             primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
+            //primaryStage.setResizable(false);
         }
 
         private void defineListeners(Stage primaryStage, ObservableList<Data> list){
@@ -139,28 +163,28 @@ public class Main extends Application {
                         try {
                             pointNumber = Integer.parseInt(numbersTF.getText());
                             if(pointNumber<3&&pointNumber>0){
-                                numberAlert = new Alert(Alert.AlertType.ERROR);
-                                numberAlert.setTitle("Error");
-                                numberAlert.setHeaderText(null);
-                                numberAlert.setContentText("Function cannot be constructed with 3 or less points!");
-                                numberAlert.showAndWait();
+                                powerAlert = new Alert(Alert.AlertType.ERROR);
+                                powerAlert.setTitle("Error");
+                                powerAlert.setHeaderText(null);
+                                powerAlert.setContentText("Function cannot be constructed with 3 or less points!");
+                                powerAlert.showAndWait();
                                 numbersTF.setPromptText(String.valueOf(10));
                                 pointNumber=10;
                             }else if(pointNumber<=0){
-                                numberAlert = new Alert(Alert.AlertType.ERROR);
-                                numberAlert.setTitle("Error");
-                                numberAlert.setHeaderText(null);
-                                numberAlert.setContentText("Please enter a correct number!");
-                                numberAlert.showAndWait();
+                                powerAlert = new Alert(Alert.AlertType.ERROR);
+                                powerAlert.setTitle("Error");
+                                powerAlert.setHeaderText(null);
+                                powerAlert.setContentText("Please enter a correct number!");
+                                powerAlert.showAndWait();
                                 numbersTF.setPromptText(String.valueOf(10));
                                 pointNumber=10;
                             }
                         } catch (Exception e) {
-                            numberAlert = new Alert(Alert.AlertType.ERROR);
-                            numberAlert.setTitle("Error");
-                            numberAlert.setHeaderText(null);
-                            numberAlert.setContentText("Please enter a correct number!");
-                            numberAlert.showAndWait();
+                            powerAlert = new Alert(Alert.AlertType.ERROR);
+                            powerAlert.setTitle("Error");
+                            powerAlert.setHeaderText(null);
+                            powerAlert.setContentText("Please enter a correct number!");
+                            powerAlert.showAndWait();
                             numbersTF.setPromptText(String.valueOf(10));
                             pointNumber=10;
                             System.out.println("Smth wrong");
@@ -357,4 +381,144 @@ public class Main extends Application {
             dialogVB.getChildren().addAll(taskLabel,dialogHBX,dialogHBY);
             return dialogVB;
         }
+
+        private void defineMenuItems(Stage stage,MenuItem...items){
+            FileChooser.ExtensionFilter docFilter = new FileChooser.ExtensionFilter("DOC","*.doc");
+            FileChooser.ExtensionFilter odtFilter = new FileChooser.ExtensionFilter("ODT","*.odt");
+            MenuItem item1 = items[0];
+            MenuItem item2 =items[1];
+            MenuItem item3 = items[2];
+
+            item1.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    FileChooser chooser = new FileChooser();
+                    chooser.setInitialDirectory(new File(System.getProperty("user.home")+"/Desktop"));
+                    chooser.getExtensionFilters().add(docFilter);
+                    File file = chooser.showOpenDialog(stage);
+                    if(file!=null){
+                        openFile(file);
+                    }
+                }
+            });
+
+            item2.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    FileChooser chooser = new FileChooser();
+                    chooser.setInitialDirectory(new File(System.getProperty("user.home")+"/Desktop"));
+                    chooser.getExtensionFilters().add(odtFilter);
+                    File file = chooser.showOpenDialog(stage);
+                    if(file!=null){
+                        openFile(file);
+                    }
+                }
+            });
+
+            item3.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
+            item3.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.exit(0);
+                }
+            });
     }
+
+        private void openFile(File file){
+            WordExtractor extractor;
+
+            String path = file.getAbsolutePath();
+            if(path.endsWith(".doc")){
+                try {
+                FileInputStream fis = new FileInputStream(file.getAbsoluteFile());
+                ObservableList<Data> list = FXCollections.observableArrayList();
+                HWPFDocument document = new HWPFDocument(fis);
+                extractor = new WordExtractor(document);
+                String text = extractor.getText().trim();
+                String[]text2 = text.split("\n| ");
+                for(String s:text2){
+                    String[]data = new String[2];
+                    data = s.split(";| |,");
+
+                    Double x = Double.parseDouble(data[0]);
+                    Double y = Double.parseDouble(data[1]);
+                    list.add(new Data(x,y));
+                }
+                dataTableView = null;
+                dataTableView = creator.createTable(dataTableView,tableBox,list);
+            }catch (IOException e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText("Failed to open the file");
+                    powerAlert.setContentText("Check if the file exists or is not defective");
+                    powerAlert.showAndWait();
+                }catch (NumberFormatException e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText("Illegal format of data");
+                    powerAlert.setContentText("Check the accuracy of data");
+                    powerAlert.showAndWait();
+                }catch (IndexOutOfBoundsException e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText("Only 2 numbers might be at the same line");
+                    powerAlert.setContentText("Check the accuracy of data");
+                    powerAlert.showAndWait();
+                }
+            catch (Exception e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                powerAlert.setTitle("Error");
+                powerAlert.setHeaderText("Failed to read the file");
+                powerAlert.setContentText("Check if the data format is correct");
+                powerAlert.showAndWait();
+                }
+            }else if(path.endsWith(".odt")){
+                try {
+                    ObservableList<Data> list = FXCollections.observableArrayList();
+                    TextDocument document = TextDocument.loadDocument(file);
+                    String text = document.getContentRoot().getTextContent().trim();
+                    String[]text2=text.split(" |\n");
+                    for(String s:text2){
+                        String[]data = new String[2];
+                        data = s.split(";| |,");
+                        Double x = Double.parseDouble(data[0]);
+                        Double y = Double.parseDouble(data[1]);
+                        list.add(new Data(x,y));
+                    }
+                }catch (IOException e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText("Failed to open the file");
+                    powerAlert.setContentText("Check if the file exists or is not defective");
+                    powerAlert.showAndWait();
+                }catch (NumberFormatException e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText("Illegal format of data");
+                    powerAlert.setContentText("Check the accuracy of data");
+                    powerAlert.showAndWait();
+                }catch (IndexOutOfBoundsException e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText("Only 2 numbers might be at the same line");
+                    powerAlert.setContentText("Check the accuracy of data");
+                    powerAlert.showAndWait();
+                }
+                catch (Exception e){
+                    powerAlert = new Alert(Alert.AlertType.ERROR);
+                    powerAlert.setTitle("Error");
+                    powerAlert.setHeaderText("Failed to read the file");
+                    powerAlert.setContentText("Check if the data format is correct");
+                    powerAlert.showAndWait();
+                }
+            }else{
+                powerAlert = new Alert(Alert.AlertType.ERROR);
+                powerAlert.setTitle("Error");
+                powerAlert.setHeaderText("Illegal extension");
+                powerAlert.setContentText("Choose another file");
+                powerAlert.showAndWait();
+            }
+
+        }
+
+}

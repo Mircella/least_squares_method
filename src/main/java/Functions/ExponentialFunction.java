@@ -1,8 +1,9 @@
-package main.java.Functions;
+package Functions;
 
+import com.sun.corba.se.impl.encoding.MarshalInputStream;
 import javafx.collections.ObservableList;
-import main.java.Calculator.Answer;
-import main.java.Calculator.Data;
+import Calculator.Answer;
+import Calculator.Data;
 
 import java.math.BigDecimal;
 
@@ -89,8 +90,8 @@ public class ExponentialFunction extends Function {
             String function = "y = exp("+String.valueOf(a)+"*x"+((B>0)?("+"+B):("-"+Math.abs(B)))+")";
             answer = new Answer(function,a,B);
         }catch (ArithmeticException e){
-            System.out.println("Main determinate is 0");
-        }catch (Exception e){e.printStackTrace();}
+
+        }catch (Exception e){}
         return answer;
     }
 

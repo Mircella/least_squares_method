@@ -1,4 +1,4 @@
-package main.java.Functions.FunctionDescriptions;
+package Functions.FunctionDescriptions;
 
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;

@@ -1,5 +1,3 @@
-package main.java;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,9 +21,9 @@ import javafx.scene.layout.VBox;
 
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import main.java.Functions.*;
-import main.java.Calculator.Analyse;
-import main.java.Calculator.Data;
+import Functions.*;
+import Calculator.Analyse;
+import Calculator.Data;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -87,7 +85,7 @@ public class ElementCreator {
                 astanaTab.setClosable(true);
                 try{
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(Main.class.getResource("filesFXML/astana.fxml"));
+                    loader.setLocation(Main.class.getResource("astana.fxml"));
                     HBox astanaBox = loader.load();
                     findElements(astanaBox);
                     astanaData= fillList();
@@ -365,9 +363,12 @@ public class ElementCreator {
         if(dataTableView==null){
         dataTableView = new TableView<Data>();
         }
+
         dataTableView.setEditable(true);
         createColumns(dataTableView);
         dataTableView.setItems(list);
+        dataTableView.refresh();
+        box.getChildren().clear();
         box.getChildren().add(dataTableView);
         box.setAlignment(Pos.CENTER);
         return dataTableView;
@@ -695,7 +696,7 @@ public class ElementCreator {
                         analyseStage = new Stage();
                     }
                     analyseStage.setTitle("Analyse");
-                    analyseStackPane = FXMLLoader.load(getClass().getResource("filesFXML/analyse.fxml"));
+                    analyseStackPane = FXMLLoader.load(getClass().getResource("analyse.fxml"));
                     if(analyseScene==null){
                         analyseScene = new Scene(analyseStackPane,600,400);
                     }
@@ -726,7 +727,7 @@ public class ElementCreator {
                         analyseStage2 = new Stage();
                     }
                     analyseStage2.setTitle("Analyse 2");
-                    analyseStackPane2 = FXMLLoader.load(getClass().getResource("filesFXML/analyse2.fxml"));
+                    analyseStackPane2 = FXMLLoader.load(getClass().getResource("analyse2.fxml"));
                     if(analyseScene2==null){
                         analyseScene2 = new Scene(analyseStackPane2,600,400);
                     }

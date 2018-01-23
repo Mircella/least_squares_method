@@ -1,12 +1,12 @@
-package main.java.Functions.FunctionsSolutions;
+package Functions.FunctionsSolutions;
 
-import main.java.Calculator.Answer;
-import main.java.Calculator.Data;
+import Calculator.Answer;
+import Calculator.Data;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
-import main.java.Calculator.DetCalculator;
-import main.java.Functions.InverseRatioFunction;
+import Calculator.DetCalculator;
+import Functions.InverseRatioFunction;
 
 import javax.swing.*;
 import java.awt.*;

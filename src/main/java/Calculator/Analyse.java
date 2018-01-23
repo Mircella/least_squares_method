@@ -1,7 +1,7 @@
-package main.java.Calculator;
+package Calculator;
 
 import javafx.collections.ObservableList;
-import main.java.Functions.*;
+import Functions.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

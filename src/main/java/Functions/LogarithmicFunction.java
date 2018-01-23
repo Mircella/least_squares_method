@@ -1,8 +1,8 @@
-package main.java.Functions;
+package Functions;
 
 import javafx.collections.ObservableList;
-import main.java.Calculator.Answer;
-import main.java.Calculator.Data;
+import Calculator.Answer;
+import Calculator.Data;
 
 import java.math.BigDecimal;
 

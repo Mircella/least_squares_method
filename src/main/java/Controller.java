@@ -1,4 +1,3 @@
-package main.java;
 
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
@@ -14,10 +13,10 @@ import javafx.scene.control.TableView;
 
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import main.java.Calculator.Analyse;
-import main.java.Calculator.Data;
+import Calculator.Analyse;
+import Calculator.Data;
 
-import main.java.Functions.*;
+import Functions.*;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -51,7 +50,7 @@ public class Controller{
         analyseStage = new Stage();
         }
         analyseStage.setTitle("Analyse");
-        analyseStackPane = FXMLLoader.load(getClass().getResource("filesFXML/analyse.fxml"));
+        analyseStackPane = FXMLLoader.load(getClass().getResource("analyse.fxml"));
         if(analyseScene==null){
         analyseScene = new Scene(analyseStackPane,600,400);
         }

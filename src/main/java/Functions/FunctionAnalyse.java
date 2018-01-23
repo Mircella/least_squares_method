@@ -1,8 +1,8 @@
-package main.java.Functions;
+package Functions;
 
-import main.java.Calculator.Analyse;
-import main.java.Calculator.Answer;
-import main.java.Calculator.Data;
+import Calculator.Analyse;
+import Calculator.Answer;
+import Calculator.Data;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;

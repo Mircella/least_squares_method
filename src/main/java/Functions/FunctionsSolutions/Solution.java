@@ -1,4 +1,4 @@
-package main.java.Functions.FunctionsSolutions;
+package Functions.FunctionsSolutions;
 
 import org.scilab.forge.jlatexmath.TeXIcon;
 

@@ -1,4 +1,4 @@
-package main.java.Calculator;
+package Calculator;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
