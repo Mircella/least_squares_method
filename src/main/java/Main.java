@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import Calculator.Data;
 import Functions.*;
+import org.apache.poi.OldFileFormatException;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.odftoolkit.simple.TextDocument;
@@ -143,14 +144,12 @@ public class Main extends Application {
             openMenuItem2 = mainMenu.getItems().get(1);
             closeMenuItem = mainMenu.getItems().get(2);
             defineMenuItems(stage,openMenuItem1,openMenuItem2,closeMenuItem);
-
-
         }
 
         private void prepareStage (Stage primaryStage, Scene scene){
             primaryStage.setTitle("Least Square Method");
             primaryStage.setScene(scene);
-            //primaryStage.setResizable(false);
+            primaryStage.setResizable(false);
         }
 
         private void defineListeners(Stage primaryStage, ObservableList<Data> list){
@@ -430,12 +429,12 @@ public class Main extends Application {
             String path = file.getAbsolutePath();
             if(path.endsWith(".doc")){
                 try {
-                FileInputStream fis = new FileInputStream(file.getAbsoluteFile());
+                FileInputStream fis = new FileInputStream(file.getAbsolutePath());
                 ObservableList<Data> list = FXCollections.observableArrayList();
                 HWPFDocument document = new HWPFDocument(fis);
                 extractor = new WordExtractor(document);
                 String text = extractor.getText().trim();
-                String[]text2 = text.split("\n| ");
+                    String[]text2 = text.split("\n| ");
                 for(String s:text2){
                     String[]data = new String[2];
                     data = s.split(";| |,");
@@ -464,7 +463,8 @@ public class Main extends Application {
                     powerAlert.setHeaderText("Only 2 numbers might be at the same line");
                     powerAlert.setContentText("Check the accuracy of data");
                     powerAlert.showAndWait();
-                }
+                }catch (OldFileFormatException e){System.out.println(e.getClass().getSimpleName());}
+                catch (IllegalArgumentException e){System.out.println(e.getClass().getSimpleName()+" "+e.getMessage());}
             catch (Exception e){
                     powerAlert = new Alert(Alert.AlertType.ERROR);
                 powerAlert.setTitle("Error");
@@ -477,14 +477,16 @@ public class Main extends Application {
                     ObservableList<Data> list = FXCollections.observableArrayList();
                     TextDocument document = TextDocument.loadDocument(file);
                     String text = document.getContentRoot().getTextContent().trim();
-                    String[]text2=text.split(" |\n");
+                    String[]text2=text.split("\n| ");
                     for(String s:text2){
                         String[]data = new String[2];
-                        data = s.split(";| |,");
+                        data = s.split(";| |,|\n");
                         Double x = Double.parseDouble(data[0]);
                         Double y = Double.parseDouble(data[1]);
                         list.add(new Data(x,y));
                     }
+                    dataTableView = null;
+                    dataTableView = creator.createTable(dataTableView,tableBox,list);
                 }catch (IOException e){
                     powerAlert = new Alert(Alert.AlertType.ERROR);
                     powerAlert.setTitle("Error");
@@ -518,7 +520,5 @@ public class Main extends Application {
                 powerAlert.setContentText("Choose another file");
                 powerAlert.showAndWait();
             }
-
-        }
-
+    }
 }
