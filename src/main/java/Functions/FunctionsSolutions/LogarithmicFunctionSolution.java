@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class LogarithmicFunctionSolution implements Solution {
@@ -49,11 +48,11 @@ public class LogarithmicFunctionSolution implements Solution {
         this.answer = function.getAnswer();
         this.logarithmicFunctionSolution = new ArrayList<>();
         this.minors1 = new ArrayList<>();
-        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors2 = new ArrayList<>();
-        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors3 = new ArrayList<>();
-        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
     }
 
     private String createSolutionText(){
@@ -93,9 +92,9 @@ public class LogarithmicFunctionSolution implements Solution {
         sb = new StringBuilder();
         sb.append("\\hline\n"+"\\ln x_{i} & y_{i} & (\\ln x_{i})^{2} & y_{i} \\cdot \\ln x_{i}\\\\\n"+"\\hline\n");
         for(Data d:this.dataList){
-            double x2 = new BigDecimal(Math.log(Math.pow(d.getX(),2))).setScale(2, RoundingMode.CEILING).doubleValue();
-            double xy = new BigDecimal(d.getY()*Math.log(d.getY())).setScale(2,RoundingMode.CEILING).doubleValue();
-            sb.append(String.valueOf(new BigDecimal(Math.log(d.getX())).setScale(2,RoundingMode.CEILING).doubleValue())+
+            double x2 = new BigDecimal(Math.log(Math.pow(d.getX(),2))).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
+            double xy = new BigDecimal(d.getY()*Math.log(d.getY())).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            sb.append(String.valueOf(new BigDecimal(Math.log(d.getX())).setScale(4,BigDecimal.ROUND_DOWN).doubleValue())+
                     " & "+String.valueOf(d.getY())+
                     " & "+String.valueOf(x2)+
                     " & "+String.valueOf(xy)+"\\\\\n");

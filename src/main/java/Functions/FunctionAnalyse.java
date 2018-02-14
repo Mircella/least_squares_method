@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class FunctionAnalyse {
@@ -74,7 +73,7 @@ public class FunctionAnalyse {
         double sumXY=0;
         double sumX2=0;
         double sumY2=0;
-        xMean = new BigDecimal(xMean/ dataList.size()).setScale(2,RoundingMode.CEILING).doubleValue();
+        xMean = new BigDecimal(xMean/ dataList.size()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         analyseText="\\begin{array}{l}";
         analyseText+="To\\ evaluate\\ approximation\\ functions\\ it\'s\\ necessary\\ to\\ do\\ regression\\ analysis.\\\\";
         analyseText+="Result\\ functions\\\\";
@@ -100,9 +99,9 @@ public class FunctionAnalyse {
         sb.append("\\hline\n"+"x_{i} & y_{i} & x_{i}\\cdot y_{i} & x_{i}^{2} & y_{i}^{2}\\\\\n"+"\\hline\n");
         for(int i=0;i<dataList.size();i++){
             Data d = dataList.get(i);
-            xy[i]=new BigDecimal(d.getX()*d.getY()).setScale(2,RoundingMode.CEILING).doubleValue();
-            x2[i]=new BigDecimal(Math.pow(d.getX(),2)).setScale(2,RoundingMode.CEILING).doubleValue();
-            y2[i]=new BigDecimal(Math.pow(d.getY(),2)).setScale(2,RoundingMode.CEILING).doubleValue();
+            xy[i]=new BigDecimal(d.getX()*d.getY()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            x2[i]=new BigDecimal(Math.pow(d.getX(),2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            y2[i]=new BigDecimal(Math.pow(d.getY(),2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             sb.append(String.valueOf(d.getX())+
                     " & "+String.valueOf(d.getY())+
                     " & "+String.valueOf(xy[i])+
@@ -144,12 +143,12 @@ public class FunctionAnalyse {
                 "& \\varepsilon _{i}^{2} " +
                 "& A_{i} \\\\\n"+"\\hline\n");
         for(int i=0;i<dataList.size();i++){
-            double y = new BigDecimal(mainFunction.getResult(dataList.get(i).getX())).setScale(2, RoundingMode.CEILING).doubleValue();
-            double xx = new BigDecimal(dataList.get(i).getX()-xMean).setScale(2,RoundingMode.CEILING).doubleValue();
-            xx2[i] = new BigDecimal(Math.pow(dataList.get(i).getX()-xMean,2)).setScale(2,RoundingMode.CEILING).doubleValue();
-            double eps = new BigDecimal(dataList.get(i).getY()-y).setScale(2,RoundingMode.CEILING).doubleValue();
-            eps2[i] = new BigDecimal(Math.pow(dataList.get(i).getY()-y,2)).setScale(2,RoundingMode.CEILING).doubleValue();
-            a[i] = new BigDecimal(eps/dataList.get(i).getY()).setScale(2,RoundingMode.CEILING).doubleValue();
+            double y = new BigDecimal(mainFunction.getResult(dataList.get(i).getX())).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
+            double xx = new BigDecimal(dataList.get(i).getX()-xMean).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            xx2[i] = new BigDecimal(Math.pow(dataList.get(i).getX()-xMean,2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            double eps = new BigDecimal(dataList.get(i).getY()-y).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            eps2[i] = new BigDecimal(Math.pow(dataList.get(i).getY()-y,2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            a[i] = new BigDecimal(eps/dataList.get(i).getY()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             sb.append(String.valueOf(y)+
                     " & "+String.valueOf(xx)+
                     " & "+String.valueOf(xx2[i])+
@@ -180,10 +179,10 @@ public class FunctionAnalyse {
         }
         sb.append("- & "+
                 "- & "
-                +new BigDecimal(sumXX2).setScale(2,RoundingMode.CEILING)
+                +new BigDecimal(sumXX2).setScale(4,BigDecimal.ROUND_DOWN)
                 +" & - & "
-                +new BigDecimal(sumEPS2).setScale(2,RoundingMode.CEILING).doubleValue()+" & "
-                +new BigDecimal(sumA).setScale(2,RoundingMode.CEILING).doubleValue());
+                +new BigDecimal(sumEPS2).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()+" & "
+                +new BigDecimal(sumA).setScale(4,BigDecimal.ROUND_DOWN).doubleValue());
         sb.append("\\hline\n");
         analyseText+="\\begin{tabular}{||r|l|2|3|4|5||}\n" +
                 sb.toString() +"\\hline\n"+
@@ -222,7 +221,7 @@ public class FunctionAnalyse {
         analyseText+="6.\\ Mean\\ value\\ of\\ the\\ approximation\\ mistake\\\\";
         analyseText+="\\overline {A}=\\frac{1}{n}\\cdot\\sum_{i=1}^{n}\\left | \\frac{y_{i}-\\widehat{y_{i}}}{y_{i}} \\right |\\cdot 100\\\\";
         analyseText+="Thus\\";
-        analyseText+="\\overline {A}=\\frac{"+new BigDecimal(sumA).setScale(2,RoundingMode.CEILING).doubleValue()+"}{"+dataList.size()+"}\\cdot 100 ="+approximation*100+"\\\\";
+        analyseText+="\\overline {A}=\\frac{"+new BigDecimal(sumA).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()+"}{"+dataList.size()+"}\\cdot 100 ="+approximation*100+"\\\\";
         analyseText+="And\\ the\\ value\\ of\\ the\\ mean\\ square\\ deviation\\ is\\\\";
         analyseText+="\\varepsilon ^{2}="+deviation+"\\\\";
         analyseText+="By\\ analogy\\ analysis\\ of\\ any\\ regression\\ model\\ can\\ be\\ done.\\\\";

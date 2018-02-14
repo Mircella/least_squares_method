@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class InverseRatioFunctionSolution implements Solution {
@@ -48,11 +47,11 @@ public class InverseRatioFunctionSolution implements Solution {
         }
         this.inverseRatioFunctionSolution = new ArrayList<>();
         this.minors1 = new ArrayList<>();
-        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors2 = new ArrayList<>();
-        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors3 = new ArrayList<>();
-        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
     }
 
     private String createSolutionText(){
@@ -81,9 +80,9 @@ public class InverseRatioFunctionSolution implements Solution {
         sb = new StringBuilder();
         sb.append("\\hline\n"+"\\frac{1}{x_{i}} & y_{i} & \\frac{1}{x_{i}^{2}} & \\frac{y_{i}}{x_{i}}\\\\\n"+"\\hline\n");
         for(Data d:this.dataList){
-            double x2 = new BigDecimal(1/Math.pow(d.getX(),2)).setScale(2, RoundingMode.CEILING).doubleValue();
-            double xy = new BigDecimal(d.getY()/d.getX()).setScale(2,RoundingMode.CEILING).doubleValue();
-            sb.append(String.valueOf(new BigDecimal(1/d.getX()).setScale(2,RoundingMode.CEILING))+
+            double x2 = new BigDecimal(1/Math.pow(d.getX(),2)).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
+            double xy = new BigDecimal(d.getY()/d.getX()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            sb.append(String.valueOf(new BigDecimal(1/d.getX()).setScale(4,BigDecimal.ROUND_DOWN))+
                     " & "+String.valueOf(d.getY())+
                     " & "+String.valueOf(x2)+
                     " & "+String.valueOf(xy)+"\\\\\n");

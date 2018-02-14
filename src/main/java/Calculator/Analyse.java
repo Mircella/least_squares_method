@@ -4,7 +4,6 @@ import javafx.collections.ObservableList;
 import Functions.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Analyse {
     private Function function;
@@ -47,7 +46,7 @@ public class Analyse {
         this.aMistake = calcAMistake(valuesDeviation,xMean);
         double[]x2 = new double[dataList.size()];
         for(int i=0;i<dataList.size();i++){
-            x2[i]=new BigDecimal(Math.pow(dataList.get(i).getX(),2)).setScale(2,RoundingMode.CEILING).doubleValue();
+            x2[i]=new BigDecimal(Math.pow(dataList.get(i).getX(),2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         }
         this.bMistake = calcBMistake(valuesDeviation,xMean,x2);
         this.rMistake=calcRMistake(correlation,dataList.size());
@@ -60,41 +59,41 @@ public class Analyse {
         double sum1=0;
         double sum2=0;
         for(double d:valuesDeviation){
-            double summand = new BigDecimal(Math.pow(d,2)).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            double summand = new BigDecimal(Math.pow(d,2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             sum1+=summand;
         }
         for(double d:valuesMean){
-            double summand = new BigDecimal(Math.pow(d,2)).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            double summand = new BigDecimal(Math.pow(d,2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             sum2+=summand;
         }
-        double ratio = new BigDecimal(sum1/sum2).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
-        correlation = new BigDecimal(Math.sqrt(1-ratio)).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+        double ratio = new BigDecimal(sum1/sum2).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+        correlation = new BigDecimal(Math.sqrt(1-ratio)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return correlation;
     }
     private double calcDetermination(double correlation){
-        determination = new BigDecimal(Math.pow(correlation,2)).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+        determination = new BigDecimal(Math.pow(correlation,2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return determination;
     }
     private double calcApproximation(double[]valuesDeviation,double[]values){
         double sum=0;
         for(int i=0;i<values.length;i++){
-            double ratio = new BigDecimal(Math.abs(valuesDeviation[i]/values[i])).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            double ratio = new BigDecimal(Math.abs(valuesDeviation[i]/values[i])).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             sum+=ratio; 
         }
-        approximation = new BigDecimal(sum/values.length).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+        approximation = new BigDecimal(sum/values.length).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return approximation;
     }
     private double calcDeviation(double[]valuesDeviation){
         for(double d:valuesDeviation){
-            double sqr = new BigDecimal(Math.pow(d,2)).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            double sqr = new BigDecimal(Math.pow(d,2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             deviation+=sqr;
         }
-        return new BigDecimal(deviation).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+        return new BigDecimal(deviation).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
     }
     private double[]calcValuesMean(ObservableList<Data>dataList,double mean){
         valuesMean = new double[dataList.size()];
         for(int i=0;i<valuesMean.length;i++){
-            valuesMean[i]=new BigDecimal(dataList.get(i).getY()-mean).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            valuesMean[i]=new BigDecimal(dataList.get(i).getY()-mean).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         }
         return valuesMean;
     }
@@ -102,21 +101,21 @@ public class Analyse {
     private double[]calcXMean(ObservableList<Data>dataList,double mean){
         xMean = new double[dataList.size()];
         for(int i=0;i<xMean.length;i++){
-            xMean[i]= new BigDecimal(Math.pow((dataList.get(i).getX()-mean),2)).setScale(2,RoundingMode.CEILING).doubleValue();
+            xMean[i]= new BigDecimal(Math.pow((dataList.get(i).getX()-mean),2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         }
         return xMean;
     }
     private double[]calcValuesFunc(ObservableList<Data>dataList,Function function){
         valuesFunc = new double[dataList.size()];
         for(int i=0;i<valuesFunc.length;i++){
-            valuesFunc[i]=new BigDecimal(function.getResult(dataList.get(i).getX())).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            valuesFunc[i]=new BigDecimal(function.getResult(dataList.get(i).getX())).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         }
         return valuesFunc;
     }
     private double[]calcValuesDeviation(ObservableList<Data>dataList,double[]valuesFunc){
         valuesDeviation = new double[dataList.size()];
         for(int i=0;i<valuesDeviation.length;i++){
-            valuesDeviation[i]=new BigDecimal(dataList.get(i).getY()- valuesFunc[i]).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            valuesDeviation[i]=new BigDecimal(dataList.get(i).getY()- valuesFunc[i]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         }
         return valuesDeviation;
     }
@@ -124,30 +123,30 @@ public class Analyse {
         for(Data d:dataList){
             mean+=d.getY();
         }
-        mean=new BigDecimal(mean/dataList.size()).setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+        mean=new BigDecimal(mean/dataList.size()).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
         return mean;
     }
 
     private double calcFisher(ObservableList<Data>dataList, double correlation){
-        double d = new BigDecimal(Math.pow(correlation,2)).setScale(2,RoundingMode.CEILING).doubleValue();
-        fisher = new BigDecimal((d/(1-correlation))*(dataList.size()-2)).setScale(2,RoundingMode.CEILING).doubleValue();
+        double d = new BigDecimal(Math.pow(correlation,2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+        fisher = new BigDecimal((d/(1-correlation))*(dataList.size()-2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return  fisher;
     }
 
     private double calcStudentA(double a,double aMistake){
-        studentA =new BigDecimal(a/aMistake).setScale(2,RoundingMode.CEILING).doubleValue();
+        studentA =new BigDecimal(a/aMistake).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return studentA;
     }
     private double calcStudentB(double b,double bMistake){
-        studentB =new BigDecimal(b/bMistake).setScale(2,RoundingMode.CEILING).doubleValue();
+        studentB =new BigDecimal(b/bMistake).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return studentB;
     }
     private double calcStudentC(double c,double cMistake){
-        studentC =new BigDecimal(c/cMistake).setScale(2,RoundingMode.CEILING).doubleValue();
+        studentC =new BigDecimal(c/cMistake).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return studentC;
     }
     private double calcStudentR(double correlation,double rMistake){
-        studentR =new BigDecimal(correlation/rMistake).setScale(2,RoundingMode.CEILING).doubleValue();
+        studentR =new BigDecimal(correlation/rMistake).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return studentR;
     }
 
@@ -161,7 +160,7 @@ public class Analyse {
             sum2+=xMean[i];
         }
         double root = (sum1/sum2)/(valuesDeviation.length-2);
-        aMistake = new BigDecimal(Math.sqrt(root)).setScale(2,RoundingMode.CEILING).doubleValue();
+        aMistake = new BigDecimal(Math.sqrt(root)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return aMistake;
     }
 
@@ -179,13 +178,13 @@ public class Analyse {
             sum3+=x2[i];
         }
         double root = (sum1*sum3/sum2)/(valuesDeviation.length*(valuesDeviation.length-2));
-        bMistake = new BigDecimal(Math.sqrt(root)).setScale(2,RoundingMode.CEILING).doubleValue();
+        bMistake = new BigDecimal(Math.sqrt(root)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return bMistake;
     }
 
     private double calcRMistake(double correlation, int size){
         double root = (1-Math.pow(correlation,2))/(size-2);
-        bMistake = new BigDecimal(Math.sqrt(root)).setScale(2,RoundingMode.CEILING).doubleValue();
+        bMistake = new BigDecimal(Math.sqrt(root)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         return bMistake;
     }
 

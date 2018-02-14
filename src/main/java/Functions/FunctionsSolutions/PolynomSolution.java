@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class PolynomSolution implements Solution{
@@ -184,7 +183,7 @@ public class PolynomSolution implements Solution{
         double[]minorsDets = new double[minors.size()];
         for(int i=0,t=0,u=0;i<minors.size();i++){
             double[][]m = minors.get(i).getMinor();
-            double element = new BigDecimal(minors.get(i).getElement()).setScale(2,RoundingMode.CEILING).doubleValue();
+            double element = new BigDecimal(minors.get(i).getElement()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             if(t==0){
                 ending="^{st}";
             }
@@ -230,9 +229,9 @@ public class PolynomSolution implements Solution{
                 sb.append("of\\ the\\ matrix\\ is\\ equal\\ to\\\\");
                 sb.append("det_{M}_{1"+(u+1)+"}"+"="+m[0][0]+"\\cdot "+m[1][1]+"\\ -\\ "
                         +m[1][0]+"\\cdot "+m[1][0]+"\\ =\\ "+
-                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue()
+                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()
                         +"\\\\");
-                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue();
+                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
                 if(i!=minors.size()-1){
                     if(minors.get(i+1).getMinor().length>2){
                         double nextDet = DetCalculator.det(minors.get(i+1).getMinor(),null);
@@ -264,7 +263,7 @@ public class PolynomSolution implements Solution{
             }
         }
         sb.append("Using\\ the\\ formula\\ for\\ computing\\ the\\ determinant\\ we\\ get\\ that\\\\");
-        sb.append("det_Z="+new BigDecimal(det).setScale(2,RoundingMode.CEILING).doubleValue()+"\\\\");
+        sb.append("det_Z="+new BigDecimal(det).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()+"\\\\");
         sb.append("Using\\ the\\ formula\\ of\\ the\\ inverse\\ matrix\\ this\\ will\\ be\\\\");
         sb.append("Z^{-1}=\\frac{1}{"+inverseFactor+"} \\cdot \\\\ \\begin{pmatrix}\n");
         for(int k=0;k<matrix2.length;k++){

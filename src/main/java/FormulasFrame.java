@@ -1,5 +1,3 @@
-
-
 import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import Functions.FunctionDescriptions.DefaultDescription;
 import Functions.FunctionDescriptions.Description;
-import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 
 import javax.swing.*;

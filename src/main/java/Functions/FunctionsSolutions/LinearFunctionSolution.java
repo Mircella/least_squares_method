@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class LinearFunctionSolution implements Solution {
@@ -46,11 +45,11 @@ public class LinearFunctionSolution implements Solution {
         }
         this.linearFunctionSolution = new ArrayList<>();
         this.minors1 = new ArrayList<>();
-        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors2 = new ArrayList<>();
-        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors3 = new ArrayList<>();
-        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
 
     }
 
@@ -80,8 +79,8 @@ public class LinearFunctionSolution implements Solution {
         sb = new StringBuilder();
         sb.append("\\hline\n"+"x_{i} & y_{i} & {x_{i}}^{2} & x_{i} \\cdot y_{i}\\\\\n"+"\\hline\n");
         for(Data d:this.dataList){
-            double x2 = new BigDecimal(Math.pow(d.getX(),2)).setScale(2, RoundingMode.CEILING).doubleValue();
-            double xy = new BigDecimal(d.getX()*d.getY()).setScale(2,RoundingMode.CEILING).doubleValue();
+            double x2 = new BigDecimal(Math.pow(d.getX(),2)).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
+            double xy = new BigDecimal(d.getX()*d.getY()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             sb.append(String.valueOf(d.getX())+
                     " & "+String.valueOf(d.getY())+
                     " & "+String.valueOf(x2)+

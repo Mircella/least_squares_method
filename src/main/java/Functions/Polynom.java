@@ -17,7 +17,6 @@ public class Polynom extends Function {
     public Polynom(int power) {
         super();
         this.power = power;
-        //System.out.println("Result of polynom is "+answer.getFunction());
     }
 
     public Polynom(ObservableList<Data> dataList, int power) {
@@ -67,7 +66,7 @@ public class Polynom extends Function {
         try {
             resultMatrixCopy = new double[resultMatrix.length];
             for(int i=0;i<resultMatrixCopy.length;i++){
-                resultMatrixCopy[i]=new BigDecimal(resultMatrix[i]/inverseFactor).setScale(2, BigDecimal.ROUND_CEILING).doubleValue();
+                resultMatrixCopy[i]=new BigDecimal(resultMatrix[i]/inverseFactor).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
             }
             StringBuilder sb = new StringBuilder("y = ");
             for (int i=resultMatrixCopy.length-1;i>=0;i--){
@@ -97,7 +96,7 @@ public class Polynom extends Function {
     public double getResult(double x) {
         result=0;
         for(int i=0;i<resultMatrixCopy.length;i++){
-            result+=new BigDecimal(resultMatrixCopy[i]*Math.pow(x,i)).setScale(2,BigDecimal.ROUND_CEILING).doubleValue();
+            result+=new BigDecimal(resultMatrixCopy[i]*Math.pow(x,i)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         }
         return result;
     }

@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class QuadraticFunctionSolution implements Solution {
@@ -50,13 +49,13 @@ public class QuadraticFunctionSolution implements Solution {
         this.answer = function.getAnswer();
         this.quadraticFunctionSolution = new ArrayList<>();
         this.minors1 = new ArrayList<>();
-        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(2, RoundingMode.CEILING).doubleValue();
+        this.det1 = new BigDecimal(DetCalculator.det(matrix,minors1)).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
         this.minors2 = new ArrayList<>();
-        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det2 = new BigDecimal(DetCalculator.det(matrix1,minors2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors3 = new ArrayList<>();
-        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det3 = new BigDecimal(DetCalculator.det(matrix2,minors3)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
         this.minors4 = new ArrayList<>();
-        this.det4 = new BigDecimal(DetCalculator.det(matrix3,minors4)).setScale(2,RoundingMode.CEILING).doubleValue();
+        this.det4 = new BigDecimal(DetCalculator.det(matrix3,minors4)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
     }
 
     private String createSolutionText(){
@@ -98,12 +97,12 @@ public class QuadraticFunctionSolution implements Solution {
         sb = new StringBuilder();
         sb.append("\\hline\n"+"\\ x_{i} & y_{i} & x_{i}^{2} & x_{i}^{3} & x_{i}^{4} & y_{i} \\cdot \\ x_{i} & y_{i} \\cdot \\ x_{i}^{2}\\\\\n"+"\\hline\n");
         for(Data d:this.dataList){
-            double x2 = new BigDecimal(Math.pow(d.getX(),2)).setScale(2, RoundingMode.CEILING).doubleValue();
-            double x3 = new BigDecimal(Math.pow(d.getX(),3)).setScale(2, RoundingMode.CEILING).doubleValue();
-            double x4 = new BigDecimal(Math.pow(d.getX(),4)).setScale(2, RoundingMode.CEILING).doubleValue();;
-            double xy = new BigDecimal(d.getY()*d.getX()).setScale(2,RoundingMode.CEILING).doubleValue();
-            double x2y = new BigDecimal(d.getY()*Math.pow(d.getX(),2)).setScale(2,RoundingMode.CEILING).doubleValue();
-            sb.append(String.valueOf(new BigDecimal(d.getX()).setScale(2,RoundingMode.CEILING).doubleValue())+
+            double x2 = new BigDecimal(Math.pow(d.getX(),2)).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
+            double x3 = new BigDecimal(Math.pow(d.getX(),3)).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();
+            double x4 = new BigDecimal(Math.pow(d.getX(),4)).setScale(4, BigDecimal.ROUND_DOWN).doubleValue();;
+            double xy = new BigDecimal(d.getY()*d.getX()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            double x2y = new BigDecimal(d.getY()*Math.pow(d.getX(),2)).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
+            sb.append(String.valueOf(new BigDecimal(d.getX()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue())+
                     " & "+String.valueOf(d.getY())+
                     " & "+String.valueOf(x2)+
                     " & "+String.valueOf(x3)+
@@ -167,7 +166,7 @@ public class QuadraticFunctionSolution implements Solution {
         double[]minorsDets = new double[minors1.size()];
         for(int i=0;i<minors1.size();i++){
             double[][]m = minors1.get(i).getMinor();
-            double element = new BigDecimal(minors1.get(i).getElement()).setScale(2,RoundingMode.CEILING).doubleValue();
+            double element = new BigDecimal(minors1.get(i).getElement()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             if(m.length==2){
                 if(i==0){
                     ending="^{st}";
@@ -195,9 +194,9 @@ public class QuadraticFunctionSolution implements Solution {
                 sb.append("of\\ the\\ matrix\\ is\\ equal\\ to\\\\");
                 sb.append("det_{M_{"+1+","+(i+1)+"}}="+m[0][0]+"\\cdot "+m[1][1]+"\\ -\\ "
                         +m[1][0]+"\\cdot "+m[1][0]+"\\ =\\ "+
-                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue()
+                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()
                         +"\\\\");
-                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue();
+                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             }
         }
         solutionText+=sb.toString()+"\\\\";
@@ -230,7 +229,7 @@ public class QuadraticFunctionSolution implements Solution {
         minorsDets = new double[minors2.size()];
         for(int i=0;i<minors2.size();i++){
             double[][]m = minors2.get(i).getMinor();
-            double element = new BigDecimal(minors2.get(i).getElement()).setScale(2,RoundingMode.CEILING).doubleValue();
+            double element = new BigDecimal(minors2.get(i).getElement()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             if(m.length==2){
                 if(i==0){
                     ending="^{st}";
@@ -258,9 +257,9 @@ public class QuadraticFunctionSolution implements Solution {
                 sb.append("of\\ the\\ matrix\\ is\\ equal\\ to\\\\");
                 sb.append("det_{M_{"+1+","+(i+1)+"}}="+m[0][0]+"\\cdot "+m[1][1]+"\\ -\\ "
                         +m[1][0]+"\\cdot "+m[1][0]+"\\ =\\ "+
-                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue()
+                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()
                         +"\\\\");
-                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue();
+                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             }
         }
         solutionText+=sb.toString()+"\\\\";
@@ -291,7 +290,7 @@ public class QuadraticFunctionSolution implements Solution {
         minorsDets = new double[minors3.size()];
         for(int i=0;i<minors3.size();i++){
             double[][]m = minors3.get(i).getMinor();
-            double element = new BigDecimal(minors3.get(i).getElement()).setScale(2,RoundingMode.CEILING).doubleValue();
+            double element = new BigDecimal(minors3.get(i).getElement()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             if(m.length==2){
                 if(i==0){
                     ending="^{st}";
@@ -319,9 +318,9 @@ public class QuadraticFunctionSolution implements Solution {
                 sb.append("of\\ the\\ matrix\\ is\\ equal\\ to\\\\");
                 sb.append("det_{M_{"+1+","+(i+1)+"}}="+m[0][0]+"\\cdot "+m[1][1]+"\\ -\\ "
                         +m[1][0]+"\\cdot "+m[1][0]+"\\ =\\ "+
-                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue()
+                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()
                         +"\\\\");
-                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue();
+                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             }
         }
         solutionText+=sb.toString()+"\\\\";
@@ -352,7 +351,7 @@ public class QuadraticFunctionSolution implements Solution {
         minorsDets = new double[minors4.size()];
         for(int i=0;i<minors4.size();i++){
             double[][]m = minors4.get(i).getMinor();
-            double element = new BigDecimal(minors4.get(i).getElement()).setScale(2,RoundingMode.CEILING).doubleValue();
+            double element = new BigDecimal(minors4.get(i).getElement()).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             if(m.length==2){
                 if(i==0){
                     ending="^{st}";
@@ -380,9 +379,9 @@ public class QuadraticFunctionSolution implements Solution {
                 sb.append("of\\ the\\ matrix\\ is\\ equal\\ to\\\\");
                 sb.append("det_{M_{"+1+","+(i+1)+"}}="+m[0][0]+"\\cdot "+m[1][1]+"\\ -\\ "
                         +m[1][0]+"\\cdot "+m[1][0]+"\\ =\\ "+
-                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue()
+                        new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue()
                         +"\\\\");
-                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(2,RoundingMode.CEILING).doubleValue();
+                minorsDets[i]=new BigDecimal(m[0][0]*m[1][1]-m[1][0]*m[1][0]).setScale(4,BigDecimal.ROUND_DOWN).doubleValue();
             }
         }
         solutionText+=sb.toString()+"\\\\";
